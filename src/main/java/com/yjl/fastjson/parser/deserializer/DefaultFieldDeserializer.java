@@ -8,7 +8,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.annotation.JSONField;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -22,7 +21,7 @@ public class DefaultFieldDeserializer extends FieldDeserializer {
 
     protected ObjectDeserializer fieldValueDeserilizer;
 
-    public DefaultFieldDeserializer(ParserConfig mapping, Class<?> clazz, FieldInfo fieldInfo){
+    public DefaultFieldDeserializer(ParserConfig mapping, Class<?> clazz, FieldInfo fieldInfo) {
         super(clazz, fieldInfo);
     }
 
@@ -37,7 +36,8 @@ public class DefaultFieldDeserializer extends FieldDeserializer {
                     throw new JSONException("create deserializeUsing ObjectDeserializer error", ex);
                 }
             } else {
-                fieldValueDeserilizer = config.getDeserializer(fieldInfo.fieldClass, fieldInfo.fieldType);
+                fieldValueDeserilizer =
+                        config.getDeserializer(fieldInfo.fieldClass, fieldInfo.fieldType);
             }
         }
 
@@ -45,7 +45,8 @@ public class DefaultFieldDeserializer extends FieldDeserializer {
     }
 
     @Override
-    public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
+    public void parseField(DefaultJSONParser parser, Object object, Type objectType,
+            Map<String, Object> fieldValues) {
         if (this.fieldValueDeserilizer == null) {
             getFieldValueDeserilizer(parser.getConfig());
         }
@@ -65,17 +66,17 @@ public class DefaultFieldDeserializer extends FieldDeserializer {
 
         // ContextObjectDeserializer
         Object value;
-        if (fieldValueDeserilizer instanceof JavaBeanDeserializer && fieldInfo.parserFeatures != 0) {
+        if (fieldValueDeserilizer instanceof JavaBeanDeserializer
+                && fieldInfo.parserFeatures != 0) {
             JavaBeanDeserializer javaBeanDeser = (JavaBeanDeserializer) fieldValueDeserilizer;
-            value = javaBeanDeser.deserialze(parser, fieldType, fieldInfo.name, fieldInfo.parserFeatures);
+            value = javaBeanDeser.deserialze(parser, fieldType, fieldInfo.name,
+                    fieldInfo.parserFeatures);
         } else {
-            if (this.fieldInfo.format != null && fieldValueDeserilizer instanceof ContextObjectDeserializer) {
+            if (this.fieldInfo.format != null
+                    && fieldValueDeserilizer instanceof ContextObjectDeserializer) {
                 value = ((ContextObjectDeserializer) fieldValueDeserilizer) //
-                                        .deserialze(parser,
-                                                    fieldType,
-                                                    fieldInfo.name,
-                                                    fieldInfo.format,
-                                                    fieldInfo.parserFeatures);
+                        .deserialze(parser, fieldType, fieldInfo.name, fieldInfo.format,
+                                fieldInfo.parserFeatures);
             } else {
                 value = fieldValueDeserilizer.deserialze(parser, fieldType, fieldInfo.name);
             }
@@ -128,7 +129,8 @@ public class DefaultFieldDeserializer extends FieldDeserializer {
         return JSONToken.LITERAL_INT;
     }
 
-    public void parseFieldUnwrapped(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
+    public void parseFieldUnwrapped(DefaultJSONParser parser, Object object, Type objectType,
+            Map<String, Object> fieldValues) {
         throw new JSONException("TODO");
     }
 }

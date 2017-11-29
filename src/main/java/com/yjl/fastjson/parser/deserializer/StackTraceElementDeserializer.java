@@ -1,7 +1,6 @@
 package com.yjl.fastjson.parser.deserializer;
 
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -11,9 +10,10 @@ import com.yjl.fastjson.parser.JSONToken;
 
 public class StackTraceElementDeserializer implements ObjectDeserializer {
 
-    public final static StackTraceElementDeserializer instance = new StackTraceElementDeserializer();
+    public final static StackTraceElementDeserializer instance =
+            new StackTraceElementDeserializer();
 
-    @SuppressWarnings({ "unchecked", "unused" })
+    @SuppressWarnings({"unchecked", "unused"})
     public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
         JSONLexer lexer = parser.lexer;
         if (lexer.token() == JSONToken.NULL) {
@@ -93,10 +93,10 @@ public class StackTraceElementDeserializer implements ObjectDeserializer {
                     throw new JSONException("syntax error");
                 }
             } else if (key == JSON.DEFAULT_TYPE_KEY) {
-               if (lexer.token() == JSONToken.LITERAL_STRING) {
+                if (lexer.token() == JSONToken.LITERAL_STRING) {
                     String elementType = lexer.stringVal();
                     if (!elementType.equals("java.lang.StackTraceElement")) {
-                        throw new JSONException("syntax error : " + elementType);    
+                        throw new JSONException("syntax error : " + elementType);
                     }
                 } else {
                     if (lexer.token() != JSONToken.NULL) {

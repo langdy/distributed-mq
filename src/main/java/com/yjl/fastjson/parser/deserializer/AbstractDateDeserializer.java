@@ -3,7 +3,6 @@ package com.yjl.fastjson.parser.deserializer;
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -13,15 +12,17 @@ import com.yjl.fastjson.parser.JSONScanner;
 import com.yjl.fastjson.parser.JSONToken;
 import com.yjl.fastjson.util.TypeUtils;
 
-public abstract class AbstractDateDeserializer extends ContextObjectDeserializer implements ObjectDeserializer {
+public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
+        implements ObjectDeserializer {
 
     public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName) {
         return deserialze(parser, clazz, fieldName, null, 0);
     }
-    
+
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName, String format, int features) {
+    public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName, String format,
+            int features) {
         JSONLexer lexer = parser.lexer;
 
         Object val;
@@ -30,16 +31,16 @@ public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
             lexer.nextToken(JSONToken.COMMA);
         } else if (lexer.token() == JSONToken.LITERAL_STRING) {
             String strVal = lexer.stringVal();
-            
+
             if (format != null) {
                 SimpleDateFormat simpleDateFormat = null;
                 try {
-                    simpleDateFormat = new SimpleDateFormat(format,JSON.defaultLocale);
+                    simpleDateFormat = new SimpleDateFormat(format, JSON.defaultLocale);
                 } catch (IllegalArgumentException ex) {
                     if (format.equals("yyyy-MM-ddTHH:mm:ss.SSS")) {
                         format = "yyyy-MM-dd'T'HH:mm:ss.SSS";
                         simpleDateFormat = new SimpleDateFormat(format);
-                    } else  if (format.equals("yyyy-MM-ddTHH:mm:ss")) {
+                    } else if (format.equals("yyyy-MM-ddTHH:mm:ss")) {
                         format = "yyyy-MM-dd'T'HH:mm:ss";
                         simpleDateFormat = new SimpleDateFormat(format);
                     }
@@ -64,11 +65,11 @@ public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
             } else {
                 val = null;
             }
-            
+
             if (val == null) {
                 val = strVal;
                 lexer.nextToken(JSONToken.COMMA);
-                
+
                 if (lexer.isEnabled(Feature.AllowISO8601DateFormat)) {
                     JSONScanner iso8601Lexer = new JSONScanner(strVal);
                     if (iso8601Lexer.scanISO8601DateIfMatch()) {
@@ -82,30 +83,30 @@ public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
             val = null;
         } else if (lexer.token() == JSONToken.LBRACE) {
             lexer.nextToken();
-            
+
             String key;
             if (lexer.token() == JSONToken.LITERAL_STRING) {
                 key = lexer.stringVal();
-                
+
                 if (JSON.DEFAULT_TYPE_KEY.equals(key)) {
                     lexer.nextToken();
                     parser.accept(JSONToken.COLON);
-                    
+
                     String typeName = lexer.stringVal();
                     Class<?> type = parser.getConfig().checkAutoType(typeName, null);
                     if (type != null) {
                         clazz = type;
                     }
-                    
+
                     parser.accept(JSONToken.LITERAL_STRING);
                     parser.accept(JSONToken.COMMA);
                 }
-                
+
                 lexer.nextTokenWithColon(JSONToken.LITERAL_INT);
             } else {
                 throw new JSONException("syntax error");
             }
-            
+
             long timeMillis;
             if (lexer.token() == JSONToken.LITERAL_INT) {
                 timeMillis = lexer.longValue();
@@ -113,9 +114,9 @@ public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
             } else {
                 throw new JSONException("syntax error : " + lexer.tokenName());
             }
-            
+
             val = timeMillis;
-            
+
             parser.accept(JSONToken.RBRACE);
         } else if (parser.getResolveStatus() == DefaultJSONParser.TypeNameRedirect) {
             parser.setResolveStatus(DefaultJSONParser.NONE);
@@ -142,5 +143,6 @@ public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
         return (T) cast(parser, clazz, fieldName, val);
     }
 
-    protected abstract <T> T cast(DefaultJSONParser parser, Type clazz, Object fieldName, Object value);
+    protected abstract <T> T cast(DefaultJSONParser parser, Type clazz, Object fieldName,
+            Object value);
 }

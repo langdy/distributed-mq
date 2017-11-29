@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 public interface PropertyProcessable extends ParseProcess {
     /**
      * provide property's type, {@code java.lang.Class} or {@code Type}
+     * 
      * @param name property name
      * @return property's type
      */
@@ -15,6 +16,7 @@ public interface PropertyProcessable extends ParseProcess {
 
     /**
      * apply property name and value
+     * 
      * @param name property name
      * @param value property name
      */

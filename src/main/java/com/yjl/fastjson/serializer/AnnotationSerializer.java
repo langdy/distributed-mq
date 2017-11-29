@@ -1,14 +1,12 @@
 package com.yjl.fastjson.serializer;
 
 import sun.reflect.annotation.AnnotationType;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.Map;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONObject;
 
@@ -18,7 +16,8 @@ import com.yjl.fastjson.JSONObject;
 public class AnnotationSerializer implements ObjectSerializer {
     public static AnnotationSerializer instance = new AnnotationSerializer();
 
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
+            int features) throws IOException {
         Class objClass = object.getClass();
         Class[] interfaces = objClass.getInterfaces();
         if (interfaces.length == 1 && interfaces[0].isAnnotation()) {

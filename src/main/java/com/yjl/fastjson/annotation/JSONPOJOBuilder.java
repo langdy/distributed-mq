@@ -11,31 +11,26 @@ import java.lang.annotation.Target;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface JSONPOJOBuilder {
     /**
-     * Property to use for re-defining which zero-argument method
-     * is considered the actual "build-method": method called after
-     * all data has been bound, and the actual instance needs to
+     * Property to use for re-defining which zero-argument method is considered the actual
+     * "build-method": method called after all data has been bound, and the actual instance needs to
      * be instantiated.
-     *<p>
+     * <p>
      * Default value is "build".
      */
     public String buildMethod() default "build";
 
     /**
-     * Property used for (re)defining name prefix to use for
-     * auto-detecting "with-methods": methods that are similar to
-     * "set-methods" (in that they take an argument), but that
-     * may also return the new builder instance to use
-     * (which may be 'this', or a new modified builder instance).
-     * Note that in addition to this prefix, it is also possible
-     * to use {@link com.yjl.fastjson.annotation.JSONField}
-     * annotation to indicate "with-methods".
-     *<p>
-     * Default value is "with", so that method named "withValue()"
-     * would be used for binding JSON property "value" (using type
-     * indicated by the argument; or one defined with annotations.
+     * Property used for (re)defining name prefix to use for auto-detecting "with-methods": methods
+     * that are similar to "set-methods" (in that they take an argument), but that may also return
+     * the new builder instance to use (which may be 'this', or a new modified builder instance).
+     * Note that in addition to this prefix, it is also possible to use
+     * {@link com.yjl.fastjson.annotation.JSONField} annotation to indicate "with-methods".
+     * <p>
+     * Default value is "with", so that method named "withValue()" would be used for binding JSON
+     * property "value" (using type indicated by the argument; or one defined with annotations.
      */
     public String withPrefix() default "with";
 

@@ -5,14 +5,12 @@ import static com.yjl.fastjson.JSONStreamContext.PropertyKey;
 import static com.yjl.fastjson.JSONStreamContext.PropertyValue;
 import static com.yjl.fastjson.JSONStreamContext.StartArray;
 import static com.yjl.fastjson.JSONStreamContext.StartObject;
-
 import java.io.Closeable;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.Feature;
 import com.yjl.fastjson.parser.JSONLexer;
@@ -23,31 +21,31 @@ import com.yjl.fastjson.util.TypeUtils;
 public class JSONReader implements Closeable {
 
     private final DefaultJSONParser parser;
-    private JSONStreamContext       context;
+    private JSONStreamContext context;
 
-    public JSONReader(Reader reader){
+    public JSONReader(Reader reader) {
         this(reader, new Feature[0]);
     }
-    
-    public JSONReader(Reader reader, Feature... features){
+
+    public JSONReader(Reader reader, Feature... features) {
         this(new JSONReaderScanner(reader));
         for (Feature feature : features) {
             this.config(feature, true);
         }
     }
 
-    public JSONReader(JSONLexer lexer){
+    public JSONReader(JSONLexer lexer) {
         this(new DefaultJSONParser(lexer));
     }
 
-    public JSONReader(DefaultJSONParser parser){
+    public JSONReader(DefaultJSONParser parser) {
         this.parser = parser;
     }
-    
+
     public void setTimzeZone(TimeZone timezone) {
         this.parser.lexer.setTimeZone(timezone);
     }
-    
+
     public void setLocale(Locale locale) {
         this.parser.lexer.setLocale(locale);
     }
@@ -55,11 +53,11 @@ public class JSONReader implements Closeable {
     public void config(Feature feature, boolean state) {
         this.parser.config(feature, state);
     }
-    
+
     public Locale getLocal() {
         return this.parser.lexer.getLocale();
     }
-    
+
     public TimeZone getTimzeZone() {
         return this.parser.lexer.getTimeZone();
     }
@@ -120,7 +118,7 @@ public class JSONReader implements Closeable {
         if (context == null) {
             return;
         }
-        
+
         final int state = context.state;
         int newState = -1;
         switch (state) {
@@ -202,7 +200,8 @@ public class JSONReader implements Closeable {
         } else {
             readBefore();
             JSONLexer lexer = parser.lexer;
-            if (context.state == JSONStreamContext.StartObject && lexer.token() == JSONToken.IDENTIFIER) {
+            if (context.state == JSONStreamContext.StartObject
+                    && lexer.token() == JSONToken.IDENTIFIER) {
                 object = lexer.stringVal();
                 lexer.nextToken();
             } else {
@@ -213,7 +212,7 @@ public class JSONReader implements Closeable {
 
         return TypeUtils.castToString(object);
     }
-    
+
     public <T> T readObject(TypeReference<T> typeRef) {
         return readObject(typeRef.getType());
     }

@@ -19,7 +19,7 @@ public class ClassReader {
         {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             byte[] buf = new byte[1024];
-            for (; ; ) {
+            for (;;) {
                 int len = is.read(buf);
                 if (len == -1) {
                     break;
@@ -45,22 +45,22 @@ public class ClassReader {
             switch (b[index]) {
                 case 9: // FIELD:
                 case 10: // METH:
-                case 11: //IMETH:
-                case 3: //INT:
-                case 4: //FLOAT:
-                case 18: //INVOKEDYN:
-                case 12: //NAME_TYPE:
+                case 11: // IMETH:
+                case 3: // INT:
+                case 4: // FLOAT:
+                case 18: // INVOKEDYN:
+                case 12: // NAME_TYPE:
                     size = 5;
                     break;
-                case 5: //LONG:
-                case 6: //DOUBLE:
+                case 5: // LONG:
+                case 6: // DOUBLE:
                     size = 9;
                     ++i;
                     break;
-                case 15: //MHANDLE:
+                case 15: // MHANDLE:
                     size = 4;
                     break;
-                case 1: //UTF8:
+                case 1: // UTF8:
                     size = 3 + readUnsignedShort(index + 1);
                     if (size > max) {
                         max = size;
@@ -123,7 +123,7 @@ public class ClassReader {
             v += 6 + readInt(v + 2);
         }
 
-        //annotations not needed.
+        // annotations not needed.
 
         // visits the fields
         i = readUnsignedShort(u);
@@ -271,23 +271,23 @@ public class ClassReader {
             switch (st) {
                 case 0:
                     c = c & 0xFF;
-                    if (c < 0x80) {  // 0xxxxxxx
+                    if (c < 0x80) { // 0xxxxxxx
                         buf[strLen++] = (char) c;
-                    } else if (c < 0xE0 && c > 0xBF) {  // 110x xxxx 10xx xxxx
+                    } else if (c < 0xE0 && c > 0xBF) { // 110x xxxx 10xx xxxx
                         cc = (char) (c & 0x1F);
                         st = 1;
-                    } else {  // 1110 xxxx 10xx xxxx 10xx xxxx
+                    } else { // 1110 xxxx 10xx xxxx 10xx xxxx
                         cc = (char) (c & 0x0F);
                         st = 2;
                     }
                     break;
 
-                case 1:  // byte 2 of 2-byte char or byte 3 of 3-byte char
+                case 1: // byte 2 of 2-byte char or byte 3 of 3-byte char
                     buf[strLen++] = (char) ((cc << 6) | (c & 0x3F));
                     st = 0;
                     break;
 
-                case 2:  // byte 2 of 3-byte char
+                case 2: // byte 2 of 3-byte char
                     cc = (char) ((cc << 6) | (c & 0x3F));
                     st = 1;
                     break;

@@ -2,7 +2,6 @@ package com.yjl.distributed.mq.consumer;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import javax.jms.Connection;
 import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
@@ -10,9 +9,7 @@ import javax.jms.MessageListener;
 import javax.jms.Queue;
 import javax.jms.Session;
 import javax.jms.Topic;
-
 import org.apache.commons.lang3.StringUtils;
-
 import com.yjl.distributed.mq.constant.BaseConstant;
 import com.yjl.distributed.mq.factory.ActivemqPoolFactory;
 import com.yjl.distributed.mq.factory.ActivemqPools;

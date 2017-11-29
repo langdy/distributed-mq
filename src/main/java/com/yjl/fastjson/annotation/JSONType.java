@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
 import com.yjl.fastjson.PropertyNamingStrategy;
 import com.yjl.fastjson.parser.Feature;
 import com.yjl.fastjson.serializer.SerializerFeature;
@@ -13,7 +12,7 @@ import com.yjl.fastjson.serializer.SerializerFeature;
  * @author wenshao[szujobs@hotmail.com]
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 public @interface JSONType {
 
     boolean asm() default true;
@@ -28,14 +27,15 @@ public @interface JSONType {
     String[] ignores() default {};
 
     SerializerFeature[] serialzeFeatures() default {};
+
     Feature[] parseFeatures() default {};
-    
+
     boolean alphabetic() default true;
-    
+
     Class<?> mappingTo() default Void.class;
-    
+
     Class<?> builder() default Void.class;
-    
+
     /**
      * @since 1.2.11
      */
@@ -45,17 +45,17 @@ public @interface JSONType {
      * @since 1.2.32
      */
     String typeKey() default "";
-    
+
     /**
      * @since 1.2.11
      */
-    Class<?>[] seeAlso() default{};
-    
+    Class<?>[] seeAlso() default {};
+
     /**
      * @since 1.2.14
      */
     Class<?> serializer() default Void.class;
-    
+
     /**
      * @since 1.2.14
      */

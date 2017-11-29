@@ -8,36 +8,36 @@ package com.yjl.distributed.mq.producer;
  */
 public class Message {
 
-	/**
-	 * 路由标志
-	 */
-	private String tag;
+    /**
+     * 路由标志
+     */
+    private String tag;
 
-	/**
-	 * 消息内容
-	 */
-	private Object msg;
+    /**
+     * 消息内容
+     */
+    private Object msg;
 
-	public Message(String tag, Object msg) {
-		this.tag = tag;
-		this.msg = msg;
-	}
+    public Message(String tag, Object msg) {
+        this.tag = tag;
+        this.msg = msg;
+    }
 
-	public String getTag() {
-		return tag;
-	}
+    public String getTag() {
+        return tag;
+    }
 
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
-	public Object getMsg() {
-		return msg;
-	}
+    public Object getMsg() {
+        return msg;
+    }
 
-	public void setMsg(Object msg) {
-		this.msg = msg;
-	}
+    public void setMsg(Object msg) {
+        this.msg = msg;
+    }
 
 
 }

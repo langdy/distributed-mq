@@ -8,15 +8,16 @@ import java.util.Enumeration;
 
 public class EnumerationSerializer implements ObjectSerializer {
     public static EnumerationSerializer instance = new EnumerationSerializer();
-    
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {
             out.writeNull(SerializerFeature.WriteNullListAsEmpty);
             return;
         }
-        
+
         Type elementType = null;
         if (out.isEnabled(SerializerFeature.WriteClassName)) {
             if (fieldType instanceof ParameterizedType) {
@@ -24,9 +25,9 @@ public class EnumerationSerializer implements ObjectSerializer {
                 elementType = param.getActualTypeArguments()[0];
             }
         }
-        
+
         Enumeration<?> e = (Enumeration<?>) object;
-        
+
         SerialContext context = serializer.context;
         serializer.setContext(context, object, fieldName, 0);
 

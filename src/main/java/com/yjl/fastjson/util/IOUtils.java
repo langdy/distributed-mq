@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.util;
 
@@ -29,28 +27,28 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Arrays;
 import java.util.Properties;
-
 import com.yjl.fastjson.JSONException;
 
 /**
  * @author wenshao[szujobs@hotmail.com]
  */
 public class IOUtils {
-    
-    public  final  static String FASTJSON_PROPERTIES  ="fastjson.properties";
-    
-    public final static String FASTJSON_COMPATIBLEWITHJAVABEAN="fastjson.compatibleWithJavaBean";
-    
-    public final static String FASTJSON_COMPATIBLEWITHFIELDNAME="fastjson.compatibleWithFieldName";
-    
-    public final static Properties DEFAULT_PROPERTIES =new Properties();    
 
-    public final static Charset   UTF8                 = Charset.forName("UTF-8");
-    
-    public final static char[]    DIGITS                     = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A',
-            'B', 'C', 'D', 'E', 'F'                         };
+    public final static String FASTJSON_PROPERTIES = "fastjson.properties";
 
-    public final static boolean[] firstIdentifierFlags       = new boolean[256];
+    public final static String FASTJSON_COMPATIBLEWITHJAVABEAN = "fastjson.compatibleWithJavaBean";
+
+    public final static String FASTJSON_COMPATIBLEWITHFIELDNAME =
+            "fastjson.compatibleWithFieldName";
+
+    public final static Properties DEFAULT_PROPERTIES = new Properties();
+
+    public final static Charset UTF8 = Charset.forName("UTF-8");
+
+    public final static char[] DIGITS =
+            {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+    public final static boolean[] firstIdentifierFlags = new boolean[256];
     static {
         for (char c = 0; c < firstIdentifierFlags.length; ++c) {
             if (c >= 'A' && c <= 'Z') {
@@ -63,7 +61,7 @@ public class IOUtils {
         }
     }
 
-    public final static boolean[] identifierFlags            = new boolean[256];
+    public final static boolean[] identifierFlags = new boolean[256];
 
     static {
         for (char c = 0; c < identifierFlags.length; ++c) {
@@ -78,37 +76,38 @@ public class IOUtils {
             }
         }
     }
-    
+
     static {
         try {
             loadPropertiesFromFile();
         } catch (Throwable e) {
-            //skip
+            // skip
         }
     }
-    
+
     public static String getStringProperty(String name) {
         String prop = null;
         try {
             prop = System.getProperty(name);
         } catch (SecurityException e) {
-            //skip
+            // skip
         }
         return (prop == null) ? DEFAULT_PROPERTIES.getProperty(name) : prop;
     }
-    
-    public static void loadPropertiesFromFile(){
-        InputStream imputStream = AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-            public InputStream run() {
-                ClassLoader cl = Thread.currentThread().getContextClassLoader();
-                if (cl != null) {
-                    return cl.getResourceAsStream(FASTJSON_PROPERTIES);
-                } else {
-                    return ClassLoader.getSystemResourceAsStream(FASTJSON_PROPERTIES);
-                }
-            }
-        });
-        
+
+    public static void loadPropertiesFromFile() {
+        InputStream imputStream =
+                AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
+                    public InputStream run() {
+                        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+                        if (cl != null) {
+                            return cl.getResourceAsStream(FASTJSON_PROPERTIES);
+                        } else {
+                            return ClassLoader.getSystemResourceAsStream(FASTJSON_PROPERTIES);
+                        }
+                    }
+                });
+
         if (null != imputStream) {
             try {
                 DEFAULT_PROPERTIES.load(imputStream);
@@ -119,12 +118,12 @@ public class IOUtils {
         }
     }
 
-    public final static byte[]    specicalFlags_doubleQuotes = new byte[161];
-    public final static byte[]    specicalFlags_singleQuotes = new byte[161];
+    public final static byte[] specicalFlags_doubleQuotes = new byte[161];
+    public final static byte[] specicalFlags_singleQuotes = new byte[161];
     public final static boolean[] specicalFlags_doubleQuotesFlags = new boolean[161];
     public final static boolean[] specicalFlags_singleQuotesFlags = new boolean[161];
 
-    public final static char[]    replaceChars               = new char[93];
+    public final static char[] replaceChars = new char[93];
     static {
         specicalFlags_doubleQuotes['\0'] = 4;
         specicalFlags_doubleQuotes['\1'] = 4;
@@ -169,7 +168,7 @@ public class IOUtils {
             specicalFlags_doubleQuotes[i] = 4;
             specicalFlags_singleQuotes[i] = 4;
         }
-        
+
         for (int i = 0; i < 161; ++i) {
             specicalFlags_doubleQuotesFlags[i] = specicalFlags_doubleQuotes[i] != 0;
             specicalFlags_singleQuotesFlags[i] = specicalFlags_singleQuotes[i] != 0;
@@ -195,12 +194,12 @@ public class IOUtils {
         replaceChars['\\'] = '\\'; // 92
     }
 
-    public final static char[]    ASCII_CHARS                = { '0', '0', '0', '1', '0', '2', '0', '3', '0', '4', '0',
-            '5', '0', '6', '0', '7', '0', '8', '0', '9', '0', 'A', '0', 'B', '0', 'C', '0', 'D', '0', 'E', '0', 'F',
-            '1', '0', '1', '1', '1', '2', '1', '3', '1', '4', '1', '5', '1', '6', '1', '7', '1', '8', '1', '9', '1',
-            'A', '1', 'B', '1', 'C', '1', 'D', '1', 'E', '1', 'F', '2', '0', '2', '1', '2', '2', '2', '3', '2', '4',
-            '2', '5', '2', '6', '2', '7', '2', '8', '2', '9', '2', 'A', '2', 'B', '2', 'C', '2', 'D', '2', 'E', '2',
-            'F',                                            };
+    public final static char[] ASCII_CHARS = {'0', '0', '0', '1', '0', '2', '0', '3', '0', '4', '0',
+            '5', '0', '6', '0', '7', '0', '8', '0', '9', '0', 'A', '0', 'B', '0', 'C', '0', 'D',
+            '0', 'E', '0', 'F', '1', '0', '1', '1', '1', '2', '1', '3', '1', '4', '1', '5', '1',
+            '6', '1', '7', '1', '8', '1', '9', '1', 'A', '1', 'B', '1', 'C', '1', 'D', '1', 'E',
+            '1', 'F', '2', '0', '2', '1', '2', '2', '2', '3', '2', '4', '2', '5', '2', '6', '2',
+            '7', '2', '8', '2', '9', '2', 'A', '2', 'B', '2', 'C', '2', 'D', '2', 'E', '2', 'F',};
 
     public static void close(Closeable x) {
         if (x != null) {
@@ -216,7 +215,8 @@ public class IOUtils {
     public static int stringSize(long x) {
         long p = 10;
         for (int i = 1; i < 19; i++) {
-            if (x < p) return i;
+            if (x < p)
+                return i;
             p = 10 * p;
         }
         return 19;
@@ -262,7 +262,8 @@ public class IOUtils {
             r = i2 - ((q2 << 3) + (q2 << 1)); // r = i2-(q2*10) ...
             buf[--charPos] = digits[r];
             i2 = q2;
-            if (i2 == 0) break;
+            if (i2 == 0)
+                break;
         }
         if (sign != 0) {
             buf[--charPos] = sign;
@@ -270,9 +271,9 @@ public class IOUtils {
     }
 
     /**
-     * Places characters representing the integer i into the character array buf. The characters are placed into the
-     * buffer backwards starting with the least significant digit at the specified index (exclusive), and working
-     * backwards from there. Will fail if i == Integer.MIN_VALUE
+     * Places characters representing the integer i into the character array buf. The characters are
+     * placed into the buffer backwards starting with the least significant digit at the specified
+     * index (exclusive), and working backwards from there. Will fail if i == Integer.MIN_VALUE
      */
     public static void getChars(int i, int index, char[] buf) {
         int q, r, p = index;
@@ -299,7 +300,8 @@ public class IOUtils {
             r = i - ((q << 3) + (q << 1)); // r = i-(q*10) ...
             buf[--p] = digits[r];
             i = q;
-            if (i == 0) break;
+            if (i == 0)
+                break;
         }
         if (sign != 0) {
             buf[--p] = sign;
@@ -324,7 +326,8 @@ public class IOUtils {
             r = i - ((q << 3) + (q << 1)); // r = i-(q*10) ...
             buf[--charPos] = digits[r];
             i = q;
-            if (i == 0) break;
+            if (i == 0)
+                break;
         }
         if (sign != 0) {
             buf[--charPos] = sign;
@@ -334,22 +337,28 @@ public class IOUtils {
     /**
      * All possible chars for representing a number as a String
      */
-    final static char[] digits    = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
-            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+    final static char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c',
+            'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+            'u', 'v', 'w', 'x', 'y', 'z'};
 
-    final static char[] DigitTens = { '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '1', '1', '1', '1', '1',
-            '1', '1', '1', '1', '2', '2', '2', '2', '2', '2', '2', '2', '2', '2', '3', '3', '3', '3', '3', '3', '3',
-            '3', '3', '3', '4', '4', '4', '4', '4', '4', '4', '4', '4', '4', '5', '5', '5', '5', '5', '5', '5', '5',
-            '5', '5', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '7', '7', '7', '7', '7', '7', '7', '7', '7',
-            '7', '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '9', '9', '9', '9', '9', '9', '9', '9', '9', '9', };
+    final static char[] DigitTens = {'0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '1',
+            '1', '1', '1', '1', '1', '1', '1', '1', '2', '2', '2', '2', '2', '2', '2', '2', '2',
+            '2', '3', '3', '3', '3', '3', '3', '3', '3', '3', '3', '4', '4', '4', '4', '4', '4',
+            '4', '4', '4', '4', '5', '5', '5', '5', '5', '5', '5', '5', '5', '5', '6', '6', '6',
+            '6', '6', '6', '6', '6', '6', '6', '7', '7', '7', '7', '7', '7', '7', '7', '7', '7',
+            '8', '8', '8', '8', '8', '8', '8', '8', '8', '8', '9', '9', '9', '9', '9', '9', '9',
+            '9', '9', '9',};
 
-    final static char[] DigitOnes = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5',
-            '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6',
-            '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7',
-            '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8',
-            '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', };
+    final static char[] DigitOnes = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1',
+            '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+            '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5',
+            '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2',
+            '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '1', '2', '3', '4', '5', '6',
+            '7', '8', '9',};
 
-    final static int[]  sizeTable = { 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999, Integer.MAX_VALUE };
+    final static int[] sizeTable =
+            {9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999, Integer.MAX_VALUE};
 
     // Requires positive x
     public static int stringSize(int x) {
@@ -360,7 +369,8 @@ public class IOUtils {
         }
     }
 
-    public static void decode(CharsetDecoder charsetDecoder, ByteBuffer byteBuf, CharBuffer charByte) {
+    public static void decode(CharsetDecoder charsetDecoder, ByteBuffer byteBuf,
+            CharBuffer charByte) {
         try {
             CoderResult cr = charsetDecoder.decode(byteBuf, charByte, true);
 
@@ -383,13 +393,14 @@ public class IOUtils {
     public static boolean firstIdentifier(char ch) {
         return ch < IOUtils.firstIdentifierFlags.length && IOUtils.firstIdentifierFlags[ch];
     }
-    
+
     public static boolean isIdent(char ch) {
         return ch < identifierFlags.length && identifierFlags[ch];
     }
-    
-    public static final char[] CA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
-    public static final int[]  IA = new int[256];
+
+    public static final char[] CA =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+    public static final int[] IA = new int[256];
     static {
         Arrays.fill(IA, -1);
         for (int i = 0, iS = CA.length; i < iS; i++)
@@ -398,14 +409,16 @@ public class IOUtils {
     }
 
     /**
-     * Decodes a BASE64 encoded char array that is known to be resonably well formatted. The method is about twice as
-     * fast as #decode(char[]). The preconditions are:<br>
+     * Decodes a BASE64 encoded char array that is known to be resonably well formatted. The method
+     * is about twice as fast as #decode(char[]). The preconditions are:<br>
      * + The array must have a line length of 76 chars OR no line separators at all (one line).<br>
-     * + Line separator must be "\r\n", as specified in RFC 2045 + The array must not contain illegal characters within
-     * the encoded string<br>
-     * + The array CAN have illegal characters at the beginning and end, those will be dealt with appropriately.<br>
+     * + Line separator must be "\r\n", as specified in RFC 2045 + The array must not contain
+     * illegal characters within the encoded string<br>
+     * + The array CAN have illegal characters at the beginning and end, those will be dealt with
+     * appropriately.<br>
      * 
-     * @param chars The source array. Length 0 will return an empty array. <code>null</code> will throw an exception.
+     * @param chars The source array. Length 0 will return an empty array. <code>null</code> will
+     *        throw an exception.
      * @return The decoded array of bytes. May be of length 0.
      */
     public static byte[] decodeBase64(char[] chars, int offset, int charsLen) {
@@ -436,7 +449,8 @@ public class IOUtils {
         int d = 0;
         for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
             // Assemble three bytes into an int from four "valid" characters.
-            int i = IA[chars[sIx++]] << 18 | IA[chars[sIx++]] << 12 | IA[chars[sIx++]] << 6 | IA[chars[sIx++]];
+            int i = IA[chars[sIx++]] << 18 | IA[chars[sIx++]] << 12 | IA[chars[sIx++]] << 6
+                    | IA[chars[sIx++]];
 
             // Add the bytes
             bytes[d++] = (byte) (i >> 16);
@@ -462,7 +476,7 @@ public class IOUtils {
 
         return bytes;
     }
-    
+
     public static byte[] decodeBase64(String chars, int offset, int charsLen) {
         // Check special case
         if (charsLen == 0) {
@@ -480,7 +494,9 @@ public class IOUtils {
             eIx--;
 
         // get the padding count (=) (0, 1 or 2)
-        int pad = chars.charAt(eIx) == '=' ? (chars.charAt(eIx - 1) == '=' ? 2 : 1) : 0; // Count '=' at end.
+        int pad = chars.charAt(eIx) == '=' ? (chars.charAt(eIx - 1) == '=' ? 2 : 1) : 0; // Count
+                                                                                         // '=' at
+                                                                                         // end.
         int cCnt = eIx - sIx + 1; // Content count including possible separators
         int sepCnt = charsLen > 76 ? (chars.charAt(76) == '\r' ? cCnt / 78 : 0) << 1 : 0;
 
@@ -491,7 +507,8 @@ public class IOUtils {
         int d = 0;
         for (int cc = 0, eLen = (len / 3) * 3; d < eLen;) {
             // Assemble three bytes into an int from four "valid" characters.
-            int i = IA[chars.charAt(sIx++)] << 18 | IA[chars.charAt(sIx++)] << 12 | IA[chars.charAt(sIx++)] << 6 | IA[chars.charAt(sIx++)];
+            int i = IA[chars.charAt(sIx++)] << 18 | IA[chars.charAt(sIx++)] << 12
+                    | IA[chars.charAt(sIx++)] << 6 | IA[chars.charAt(sIx++)];
 
             // Add the bytes
             bytes[d++] = (byte) (i >> 16);
@@ -519,14 +536,16 @@ public class IOUtils {
     }
 
     /**
-     * Decodes a BASE64 encoded string that is known to be resonably well formatted. The method is about twice as fast
-     * as decode(String). The preconditions are:<br>
+     * Decodes a BASE64 encoded string that is known to be resonably well formatted. The method is
+     * about twice as fast as decode(String). The preconditions are:<br>
      * + The array must have a line length of 76 chars OR no line separators at all (one line).<br>
-     * + Line separator must be "\r\n", as specified in RFC 2045 + The array must not contain illegal characters within
-     * the encoded string<br>
-     * + The array CAN have illegal characters at the beginning and end, those will be dealt with appropriately.<br>
+     * + Line separator must be "\r\n", as specified in RFC 2045 + The array must not contain
+     * illegal characters within the encoded string<br>
+     * + The array CAN have illegal characters at the beginning and end, those will be dealt with
+     * appropriately.<br>
      * 
-     * @param s The source string. Length 0 will return an empty array. <code>null</code> will throw an exception.
+     * @param s The source string. Length 0 will return an empty array. <code>null</code> will throw
+     *        an exception.
      * @return The decoded array of bytes. May be of length 0.
      */
     public static byte[] decodeBase64(String s) {
@@ -547,7 +566,8 @@ public class IOUtils {
             eIx--;
 
         // get the padding count (=) (0, 1 or 2)
-        int pad = s.charAt(eIx) == '=' ? (s.charAt(eIx - 1) == '=' ? 2 : 1) : 0; // Count '=' at end.
+        int pad = s.charAt(eIx) == '=' ? (s.charAt(eIx - 1) == '=' ? 2 : 1) : 0; // Count '=' at
+                                                                                 // end.
         int cCnt = eIx - sIx + 1; // Content count including possible separators
         int sepCnt = sLen > 76 ? (s.charAt(76) == '\r' ? cCnt / 78 : 0) << 1 : 0;
 
@@ -585,7 +605,7 @@ public class IOUtils {
 
         return dArr;
     }
-    
+
     public static int encodeUTF8(char[] chars, int offset, int len, byte[] bytes) {
         int sl = offset + len;
         int dp = 0;
@@ -605,7 +625,7 @@ public class IOUtils {
                 // 2 bytes, 11 bits
                 bytes[dp++] = (byte) (0xc0 | (c >> 6));
                 bytes[dp++] = (byte) (0x80 | (c & 0x3f));
-            } else if (c >= '\uD800' && c < ('\uDFFF' + 1)) { //Character.isSurrogate(c) but 1.7
+            } else if (c >= '\uD800' && c < ('\uDFFF' + 1)) { // Character.isSurrogate(c) but 1.7
                 final int uc;
                 int ip = offset - 1;
                 if (Character.isHighSurrogate(c)) {
@@ -616,7 +636,8 @@ public class IOUtils {
                         if (Character.isLowSurrogate(d)) {
                             uc = Character.toCodePoint(c, d);
                         } else {
-                            throw new JSONException("encodeUTF8 error", new MalformedInputException(1));
+                            throw new JSONException("encodeUTF8 error",
+                                    new MalformedInputException(1));
                         }
                     }
                 } else {
@@ -626,7 +647,7 @@ public class IOUtils {
                         uc = c;
                     }
                 }
-                
+
                 if (uc < 0) {
                     bytes[dp++] = (byte) '?';
                 } else {
@@ -670,9 +691,8 @@ public class IOUtils {
                     if ((b2 & 0xc0) != 0x80) { // isNotContinuation(b2)
                         return -1;
                     } else {
-                        da[dp++] = (char) (((b1 << 6) ^ b2)^
-                                       (((byte) 0xC0 << 6) ^
-                                        ((byte) 0x80 << 0)));
+                        da[dp++] = (char) (((b1 << 6) ^ b2)
+                                ^ (((byte) 0xC0 << 6) ^ ((byte) 0x80 << 0)));
                     }
                     continue;
                 }
@@ -683,17 +703,14 @@ public class IOUtils {
                     int b2 = sa[sp++];
                     int b3 = sa[sp++];
                     if ((b1 == (byte) 0xe0 && (b2 & 0xe0) == 0x80) //
-                        || (b2 & 0xc0) != 0x80 //
-                        || (b3 & 0xc0) != 0x80) { // isMalformed3(b1, b2, b3)
+                            || (b2 & 0xc0) != 0x80 //
+                            || (b3 & 0xc0) != 0x80) { // isMalformed3(b1, b2, b3)
                         return -1;
                     } else {
-                        char c = (char)((b1 << 12) ^
-                                          (b2 <<  6) ^
-                                          (b3 ^
-                                          (((byte) 0xE0 << 12) ^
-                                          ((byte) 0x80 <<  6) ^
-                                          ((byte) 0x80 <<  0))));
-                        boolean isSurrogate =  c >= Character.MIN_SURROGATE && c < (Character.MAX_SURROGATE + 1);
+                        char c = (char) ((b1 << 12) ^ (b2 << 6) ^ (b3
+                                ^ (((byte) 0xE0 << 12) ^ ((byte) 0x80 << 6) ^ ((byte) 0x80 << 0))));
+                        boolean isSurrogate =
+                                c >= Character.MIN_SURROGATE && c < (Character.MAX_SURROGATE + 1);
                         if (isSurrogate) {
                             return -1;
                         } else {
@@ -709,21 +726,16 @@ public class IOUtils {
                     int b2 = sa[sp++];
                     int b3 = sa[sp++];
                     int b4 = sa[sp++];
-                    int uc = ((b1 << 18) ^
-                              (b2 << 12) ^
-                              (b3 <<  6) ^
-                              (b4 ^
-                               (((byte) 0xF0 << 18) ^
-                               ((byte) 0x80 << 12) ^
-                               ((byte) 0x80 <<  6) ^
-                               ((byte) 0x80 <<  0))));
+                    int uc = ((b1 << 18) ^ (b2 << 12) ^ (b3 << 6) ^ (b4 ^ (((byte) 0xF0 << 18)
+                            ^ ((byte) 0x80 << 12) ^ ((byte) 0x80 << 6) ^ ((byte) 0x80 << 0))));
                     if (((b2 & 0xc0) != 0x80 || (b3 & 0xc0) != 0x80 || (b4 & 0xc0) != 0x80) // isMalformed4
-                        ||
-                        // shortest form check
-                        !Character.isSupplementaryCodePoint(uc)) {
+                            ||
+                            // shortest form check
+                            !Character.isSupplementaryCodePoint(uc)) {
                         return -1;
                     } else {
-                        da[dp++] =  (char) ((uc >>> 10) + (Character.MIN_HIGH_SURROGATE - (Character.MIN_SUPPLEMENTARY_CODE_POINT >>> 10))); // Character.highSurrogate(uc);
+                        da[dp++] = (char) ((uc >>> 10) + (Character.MIN_HIGH_SURROGATE
+                                - (Character.MIN_SUPPLEMENTARY_CODE_POINT >>> 10))); // Character.highSurrogate(uc);
                         da[dp++] = (char) ((uc & 0x3ff) + Character.MIN_LOW_SURROGATE); // Character.lowSurrogate(uc);
                     }
                     continue;
@@ -751,21 +763,21 @@ public class IOUtils {
                 }
                 buf.append(chars, 0, len);
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw new JSONException("read string from reader error", ex);
         }
 
         return buf.toString();
     }
 
-    public static boolean isValidJsonpQueryParam(String value){
+    public static boolean isValidJsonpQueryParam(String value) {
         if (value == null || value.length() == 0) {
             return false;
         }
 
         for (int i = 0, len = value.length(); i < len; ++i) {
             char ch = value.charAt(i);
-            if(ch != '.' && !IOUtils.isIdent(ch)){
+            if (ch != '.' && !IOUtils.isIdent(ch)) {
                 return false;
             }
         }

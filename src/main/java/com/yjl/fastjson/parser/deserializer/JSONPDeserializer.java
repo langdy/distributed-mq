@@ -1,7 +1,6 @@
 package com.yjl.fastjson.parser.deserializer;
 
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.JSONPObject;
 import com.yjl.fastjson.parser.*;
@@ -49,7 +48,7 @@ public class JSONPDeserializer implements ObjectDeserializer {
             } else {
                 throw new JSONException("illegal jsonp : " + lexer.info());
             }
-         }
+        }
         tok = lexer.token();
         if (tok == JSONToken.SEMI) {
             lexer.nextToken();

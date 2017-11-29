@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.serializer;
 
@@ -23,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -37,25 +34,27 @@ import com.yjl.fastjson.util.TypeUtils;
 /**
  * @author wenshao[szujobs@hotmail.com]
  */
-public class DateCodec extends AbstractDateDeserializer implements ObjectSerializer, ObjectDeserializer {
+public class DateCodec extends AbstractDateDeserializer
+        implements ObjectSerializer, ObjectDeserializer {
 
     public final static DateCodec instance = new DateCodec();
-    
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {
             out.writeNull();
             return;
         }
-        
+
         Date date;
         if (object instanceof Date) {
             date = (Date) object;
         } else {
             date = TypeUtils.castToDate(object);
         }
-        
+
         if (out.isEnabled(SerializerFeature.WriteDateUseDateFormat)) {
             DateFormat format = serializer.getDateFormat();
             if (format == null) {
@@ -66,7 +65,7 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
             out.writeString(text);
             return;
         }
-        
+
         if (out.isEnabled(SerializerFeature.WriteClassName)) {
             if (object.getClass() != fieldType) {
                 if (object.getClass() == java.util.Date.class) {
@@ -86,7 +85,7 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
 
         long time = date.getTime();
         if (out.isEnabled(SerializerFeature.UseISO8601DateFormat)) {
-            char quote = out.isEnabled(SerializerFeature.UseSingleQuotes) ? '\'' : '\"'; 
+            char quote = out.isEnabled(SerializerFeature.UseSingleQuotes) ? '\'' : '\"';
             out.write(quote);
 
             Calendar calendar = Calendar.getInstance(serializer.timeZone, serializer.locale);
@@ -127,10 +126,10 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
                     IOUtils.getChars(year, 4, buf);
                 }
             }
-            
+
             out.write(buf);
-            
-            int timeZone = calendar.getTimeZone().getRawOffset()/(3600*1000);
+
+            int timeZone = calendar.getTimeZone().getRawOffset() / (3600 * 1000);
             if (timeZone == 0) {
                 out.write('Z');
             } else {
@@ -147,7 +146,7 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
             out.writeLong(time);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     public <T> T cast(DefaultJSONParser parser, Type clazz, Object fieldName, Object val) {
 
@@ -181,9 +180,9 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
                     dateLexer.close();
                 }
             }
-            
-            if (strVal.length() == parser.getDateFomartPattern().length()
-                    || (strVal.length() == 22 && parser.getDateFomartPattern().equals("yyyyMMddHHmmssSSSZ"))) {
+
+            if (strVal.length() == parser.getDateFomartPattern().length() || (strVal.length() == 22
+                    && parser.getDateFomartPattern().equals("yyyyMMddHHmmssSSSZ"))) {
                 DateFormat dateFormat = parser.getDateFormat();
                 try {
                     return (T) dateFormat.parse(strVal);
@@ -191,14 +190,13 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
                     // skip
                 }
             }
-            
+
             if (strVal.startsWith("/Date(") && strVal.endsWith(")/")) {
                 String dotnetDateStr = strVal.substring(6, strVal.length() - 2);
                 strVal = dotnetDateStr;
             }
 
-            if ("0000-00-00".equals(strVal)
-                    || "0000-00-00T00:00:00".equalsIgnoreCase(strVal)
+            if ("0000-00-00".equals(strVal) || "0000-00-00T00:00:00".equalsIgnoreCase(strVal)
                     || "0001-01-01T00:00:00+08:00".equalsIgnoreCase(strVal)) {
                 return null;
             }
@@ -229,7 +227,7 @@ public class DateCodec extends AbstractDateDeserializer implements ObjectSeriali
             }
 
             // 2017-08-14 19:05:30.000|America/Los_Angeles
-//            
+            //
             long longVal = Long.parseLong(strVal);
             return (T) new java.util.Date(longVal);
         }

@@ -9,7 +9,7 @@ public class ToStringSerializer implements ObjectSerializer {
 
     @Override
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
-                      int features) throws IOException {
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {

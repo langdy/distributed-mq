@@ -5,11 +5,9 @@ import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
 import com.yjl.fastjson.parser.JSONToken;
@@ -22,8 +20,8 @@ public class CalendarCodec implements ObjectSerializer, ObjectDeserializer {
 
     private DatatypeFactory dateFactory;
 
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features)
-                                                                                                               throws IOException {
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {
@@ -40,8 +38,8 @@ public class CalendarCodec implements ObjectSerializer, ObjectDeserializer {
 
         if (out.isEnabled(SerializerFeature.UseISO8601DateFormat)) {
             final char quote = out.isEnabled(SerializerFeature.UseSingleQuotes) //
-                ? '\'' //
-                : '\"';
+                    ? '\'' //
+                    : '\"';
             out.append(quote);
 
             int year = calendar.get(Calendar.YEAR);
@@ -127,7 +125,8 @@ public class CalendarCodec implements ObjectSerializer, ObjectDeserializer {
             try {
                 dateFactory = DatatypeFactory.newInstance();
             } catch (DatatypeConfigurationException e) {
-                throw new IllegalStateException("Could not obtain an instance of DatatypeFactory.", e);
+                throw new IllegalStateException("Could not obtain an instance of DatatypeFactory.",
+                        e);
             }
         }
         return dateFactory.newXMLGregorianCalendar((GregorianCalendar) calendar);

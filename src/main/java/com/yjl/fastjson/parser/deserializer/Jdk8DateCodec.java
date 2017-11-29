@@ -15,47 +15,65 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
 import com.yjl.fastjson.parser.JSONToken;
 import com.yjl.fastjson.serializer.*;
 
-public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSerializer, ContextObjectSerializer, ObjectDeserializer {
+public class Jdk8DateCodec extends ContextObjectDeserializer
+        implements ObjectSerializer, ContextObjectSerializer, ObjectDeserializer {
 
-    public static final Jdk8DateCodec      instance           = new Jdk8DateCodec();
+    public static final Jdk8DateCodec instance = new Jdk8DateCodec();
 
-    private final static String            defaultPatttern    = "yyyy-MM-dd HH:mm:ss";
-    private final static DateTimeFormatter defaultFormatter   = DateTimeFormatter.ofPattern(defaultPatttern);
-    private final static DateTimeFormatter formatter_dt19_tw  = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-    private final static DateTimeFormatter formatter_dt19_cn  = DateTimeFormatter.ofPattern("yyyy年M月d日 HH:mm:ss");
-    private final static DateTimeFormatter formatter_dt19_cn_1  = DateTimeFormatter.ofPattern("yyyy年M月d日 H时m分s秒");
-    private final static DateTimeFormatter formatter_dt19_kr  = DateTimeFormatter.ofPattern("yyyy년M월d일 HH:mm:ss");
-    private final static DateTimeFormatter formatter_dt19_us  = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
-    private final static DateTimeFormatter formatter_dt19_eur = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    private final static DateTimeFormatter formatter_dt19_de  = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
-    private final static DateTimeFormatter formatter_dt19_in  = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private final static String defaultPatttern = "yyyy-MM-dd HH:mm:ss";
+    private final static DateTimeFormatter defaultFormatter =
+            DateTimeFormatter.ofPattern(defaultPatttern);
+    private final static DateTimeFormatter formatter_dt19_tw =
+            DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    private final static DateTimeFormatter formatter_dt19_cn =
+            DateTimeFormatter.ofPattern("yyyy年M月d日 HH:mm:ss");
+    private final static DateTimeFormatter formatter_dt19_cn_1 =
+            DateTimeFormatter.ofPattern("yyyy年M月d日 H时m分s秒");
+    private final static DateTimeFormatter formatter_dt19_kr =
+            DateTimeFormatter.ofPattern("yyyy년M월d일 HH:mm:ss");
+    private final static DateTimeFormatter formatter_dt19_us =
+            DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+    private final static DateTimeFormatter formatter_dt19_eur =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private final static DateTimeFormatter formatter_dt19_de =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+    private final static DateTimeFormatter formatter_dt19_in =
+            DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    private final static DateTimeFormatter formatter_d8       = DateTimeFormatter.ofPattern("yyyyMMdd");
-    private final static DateTimeFormatter formatter_d10_tw   = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-    private final static DateTimeFormatter formatter_d10_cn   = DateTimeFormatter.ofPattern("yyyy年M月d日");
-    private final static DateTimeFormatter formatter_d10_kr   = DateTimeFormatter.ofPattern("yyyy년M월d일");
-    private final static DateTimeFormatter formatter_d10_us   = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    private final static DateTimeFormatter formatter_d10_eur  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private final static DateTimeFormatter formatter_d10_de   = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-    private final static DateTimeFormatter formatter_d10_in   = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final static DateTimeFormatter formatter_d8 = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private final static DateTimeFormatter formatter_d10_tw =
+            DateTimeFormatter.ofPattern("yyyy/MM/dd");
+    private final static DateTimeFormatter formatter_d10_cn =
+            DateTimeFormatter.ofPattern("yyyy年M月d日");
+    private final static DateTimeFormatter formatter_d10_kr =
+            DateTimeFormatter.ofPattern("yyyy년M월d일");
+    private final static DateTimeFormatter formatter_d10_us =
+            DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    private final static DateTimeFormatter formatter_d10_eur =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private final static DateTimeFormatter formatter_d10_de =
+            DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final static DateTimeFormatter formatter_d10_in =
+            DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private final static DateTimeFormatter ISO_FIXED_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.systemDefault());
 
-    private final static String formatter_iso8601_pattern     = "yyyy-MM-dd'T'HH:mm:ss";
-    private final static DateTimeFormatter formatter_iso8601  = DateTimeFormatter.ofPattern(formatter_iso8601_pattern);
+    private final static String formatter_iso8601_pattern = "yyyy-MM-dd'T'HH:mm:ss";
+    private final static DateTimeFormatter formatter_iso8601 =
+            DateTimeFormatter.ofPattern(formatter_iso8601_pattern);
 
     @SuppressWarnings("unchecked")
-    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, String format, int feature) {
+    public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, String format,
+            int feature) {
         JSONLexer lexer = parser.lexer;
-        if (lexer.token() == JSONToken.NULL){
+        if (lexer.token() == JSONToken.NULL) {
             lexer.nextToken();
             return null;
         }
@@ -72,7 +90,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                     formatter = DateTimeFormatter.ofPattern(format);
                 }
             }
-            
+
             if ("".equals(text)) {
                 return null;
             }
@@ -91,7 +109,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                 if (text.length() == 23) {
                     LocalDateTime localDateTime = LocalDateTime.parse(text);
                     localDate = LocalDate.of(localDateTime.getYear(), localDateTime.getMonthValue(),
-                                             localDateTime.getDayOfMonth());
+                            localDateTime.getDayOfMonth());
                 } else {
                     localDate = parseLocalDate(text, format, formatter);
                 }
@@ -102,7 +120,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                 if (text.length() == 23) {
                     LocalDateTime localDateTime = LocalDateTime.parse(text);
                     localDate = LocalTime.of(localDateTime.getHour(), localDateTime.getMinute(),
-                                             localDateTime.getSecond(), localDateTime.getNano());
+                            localDateTime.getSecond(), localDateTime.getNano());
                 } else {
                     localDate = LocalTime.parse(text);
                 }
@@ -184,7 +202,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                                 if (country.equals("US")) {
                                     formatter = formatter_dt19_us;
                                 } else if (country.equals("BR") //
-                                           || country.equals("AU")) {
+                                        || country.equals("AU")) {
                                     formatter = formatter_dt19_eur;
                                 }
                             }
@@ -201,7 +219,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                 char c4 = text.charAt(4);
                 if (c4 == '年') {
                     if (text.charAt(text.length() - 1) == '秒') {
-                        formatter = formatter_dt19_cn_1;    
+                        formatter = formatter_dt19_cn_1;
                     } else {
                         formatter = formatter_dt19_cn;
                     }
@@ -212,8 +230,8 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
         }
 
         return formatter == null ? //
-            LocalDateTime.parse(text) //
-            : LocalDateTime.parse(text, formatter);
+                LocalDateTime.parse(text) //
+                : LocalDateTime.parse(text, formatter);
     }
 
     protected LocalDate parseLocalDate(String text, String format, DateTimeFormatter formatter) {
@@ -247,7 +265,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                         if (country.equals("US")) {
                             formatter = formatter_d10_us;
                         } else if (country.equals("BR") //
-                                   || country.equals("AU")) {
+                                || country.equals("AU")) {
                             formatter = formatter_d10_eur;
                         }
                     }
@@ -269,8 +287,8 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
         }
 
         return formatter == null ? //
-            LocalDate.parse(text) //
-            : LocalDate.parse(text, formatter);
+                LocalDate.parse(text) //
+                : LocalDate.parse(text, formatter);
     }
 
     protected ZonedDateTime parseZonedDateTime(String text, DateTimeFormatter formatter) {
@@ -348,7 +366,7 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
     }
 
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
-                      int features) throws IOException {
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
         if (object == null) {
             out.writeNull();
@@ -362,7 +380,8 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                 LocalDateTime dateTime = (LocalDateTime) object;
                 String format = serializer.getDateFormatPattern();
 
-                if (format == null && (features & mask) != 0 || serializer.isEnabled(SerializerFeature.UseISO8601DateFormat)) {
+                if (format == null && (features & mask) != 0
+                        || serializer.isEnabled(SerializerFeature.UseISO8601DateFormat)) {
                     format = formatter_iso8601_pattern;
                 }
 
@@ -374,8 +393,8 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
                     write(out, dateTime, format);
                 } else {
                     out.writeString(object.toString());
-//                    format = JSON.DEFFAULT_LOCAL_DATE_TIME_FORMAT;
-//                    write(out, dateTime, format);
+                    // format = JSON.DEFFAULT_LOCAL_DATE_TIME_FORMAT;
+                    // write(out, dateTime, format);
                 }
             } else {
                 out.writeString(object.toString());
@@ -383,7 +402,8 @@ public class Jdk8DateCodec extends ContextObjectDeserializer implements ObjectSe
         }
     }
 
-    public void write(JSONSerializer serializer, Object object, BeanContext context) throws IOException {
+    public void write(JSONSerializer serializer, Object object, BeanContext context)
+            throws IOException {
         SerializeWriter out = serializer.out;
         String format = context.getFormat();
         write(out, (TemporalAccessor) object, format);

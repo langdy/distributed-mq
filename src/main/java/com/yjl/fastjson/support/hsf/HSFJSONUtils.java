@@ -1,10 +1,8 @@
 package com.yjl.fastjson.support.hsf;
 
 import static com.yjl.fastjson.parser.JSONLexer.NOT_MATCH_NAME;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONArray;
 import com.yjl.fastjson.JSONObject;
@@ -12,11 +10,11 @@ import com.yjl.fastjson.parser.*;
 import com.yjl.fastjson.util.TypeUtils;
 
 public class HSFJSONUtils {
-    final static SymbolTable typeSymbolTable      = new SymbolTable(1024);
-    final static char[]      fieldName_argsTypes  = "\"argsTypes\"".toCharArray();
-    final static char[]      fieldName_argsObjs   = "\"argsObjs\"".toCharArray();
+    final static SymbolTable typeSymbolTable = new SymbolTable(1024);
+    final static char[] fieldName_argsTypes = "\"argsTypes\"".toCharArray();
+    final static char[] fieldName_argsObjs = "\"argsObjs\"".toCharArray();
 
-    final static char[]      fieldName_type       = "\"@type\":".toCharArray();
+    final static char[] fieldName_type = "\"@type\":".toCharArray();
 
     public static Object[] parseInvocationArguments(String json, MethodLocator methodLocator) {
         DefaultJSONParser parser = new DefaultJSONParser(json);
@@ -28,11 +26,13 @@ public class HSFJSONUtils {
         Object[] values;
         int token = lexer.token();
         if (token == JSONToken.LBRACE) {
-            String[] typeNames = lexer.scanFieldStringArray(fieldName_argsTypes, -1, typeSymbolTable);
+            String[] typeNames =
+                    lexer.scanFieldStringArray(fieldName_argsTypes, -1, typeSymbolTable);
             if (typeNames == null && lexer.matchStat == NOT_MATCH_NAME) {
                 String type = lexer.scanFieldString(fieldName_type);
                 if ("com.yjl.fastjson.JSONObject".equals(type)) {
-                    typeNames = lexer.scanFieldStringArray(fieldName_argsTypes, -1, typeSymbolTable);
+                    typeNames =
+                            lexer.scanFieldStringArray(fieldName_argsTypes, -1, typeSymbolTable);
                 }
             }
             Method method = methodLocator.findMethod(typeNames);

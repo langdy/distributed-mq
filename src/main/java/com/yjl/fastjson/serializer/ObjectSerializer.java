@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.serializer;
 
@@ -21,7 +19,8 @@ import java.lang.reflect.Type;
 /**
  * Interface representing a custom serializer for fastjson. You should write a custom serializer, if
  * you are not happy with the default serialization done by fastjson. You will also need to register
- * this serializer through {@link com.yjl.fastjson.serializer.SerializeConfig#put(Type, ObjectSerializer)}.
+ * this serializer through
+ * {@link com.yjl.fastjson.serializer.SerializeConfig#put(Type, ObjectSerializer)}.
  *
  * <pre>
  * public static class Result {
@@ -53,14 +52,16 @@ import java.lang.reflect.Type;
  * String json = JSON.toJSONString(result, config); // {"code":17}
  * Assert.assertEquals("{\"code\":17}", json);
  * </pre>
+ * 
  * @author wenshao[szujobs@hotmail.com]
  */
 public interface ObjectSerializer {
-    
+
     /**
      * fastjson invokes this call-back method during serialization when it encounters a field of the
      * specified type.
-     * @param serializer 
+     * 
+     * @param serializer
      * @param object src the object that needs to be converted to Json.
      * @param fieldName parent object field name
      * @param fieldType parent object field type
@@ -68,8 +69,8 @@ public interface ObjectSerializer {
      * @throws IOException
      */
     void write(JSONSerializer serializer, //
-               Object object, //
-               Object fieldName, //
-               Type fieldType, //
-               int features) throws IOException;
+            Object object, //
+            Object fieldName, //
+            Type fieldType, //
+            int features) throws IOException;
 }

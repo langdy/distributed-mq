@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONToken;
@@ -20,7 +19,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
 
     @SuppressWarnings("unchecked")
     public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
-        
+
         if (type == OptionalInt.class) {
             Object obj = parser.parseObject(Integer.class);
             Integer value = TypeUtils.castToInt(obj);
@@ -30,7 +29,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
                 return (T) OptionalInt.of(value);
             }
         }
-        
+
         if (type == OptionalLong.class) {
             Object obj = parser.parseObject(Long.class);
             Long value = TypeUtils.castToLong(obj);
@@ -40,7 +39,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
                 return (T) OptionalLong.of(value);
             }
         }
-        
+
         if (type == OptionalDouble.class) {
             Object obj = parser.parseObject(Double.class);
             Double value = TypeUtils.castToDouble(obj);
@@ -50,14 +49,14 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
                 return (T) OptionalDouble.of(value);
             }
         }
-        
+
         type = TypeUtils.unwrapOptional(type);
         Object value = parser.parseObject(type);
-        
+
         if (value == null) {
             return (T) Optional.empty();
         }
-        
+
         return (T) Optional.of(value);
     }
 
@@ -66,7 +65,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
     }
 
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
-                      int features) throws IOException {
+            int features) throws IOException {
 
         if (object == null) {
             serializer.writeNull();
@@ -90,7 +89,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
             }
             return;
         }
-        
+
         if (object instanceof OptionalInt) {
             OptionalInt optional = (OptionalInt) object;
             if (optional.isPresent()) {
@@ -101,7 +100,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
             }
             return;
         }
-        
+
         if (object instanceof OptionalLong) {
             OptionalLong optional = (OptionalLong) object;
             if (optional.isPresent()) {
@@ -112,7 +111,7 @@ public class OptionalCodec implements ObjectSerializer, ObjectDeserializer {
             }
             return;
         }
-        
+
         throw new JSONException("not support optional : " + object.getClass());
     }
 

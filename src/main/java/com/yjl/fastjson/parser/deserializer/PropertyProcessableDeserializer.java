@@ -1,7 +1,6 @@
 package com.yjl.fastjson.parser.deserializer;
 
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONToken;
@@ -24,7 +23,7 @@ public class PropertyProcessableDeserializer implements ObjectDeserializer {
             throw new JSONException("craete instance error");
         }
 
-        Object object =parser.parse(processable, fieldName);
+        Object object = parser.parse(processable, fieldName);
 
         return (T) object;
     }

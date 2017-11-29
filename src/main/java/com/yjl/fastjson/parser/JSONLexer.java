@@ -7,15 +7,15 @@ import java.util.TimeZone;
 
 public interface JSONLexer {
 
-    char EOI            = 0x1A;
-    int  NOT_MATCH      = -1;
-    int  NOT_MATCH_NAME = -2;
-    int  UNKNOWN         = 0;
-    int  OBJECT         = 1;
-    int  ARRAY          = 2;
-    int  VALUE          = 3;
-    int  END            = 4;
-    int  VALUE_NULL     = 5;
+    char EOI = 0x1A;
+    int NOT_MATCH = -1;
+    int NOT_MATCH_NAME = -2;
+    int UNKNOWN = 0;
+    int OBJECT = 1;
+    int ARRAY = 2;
+    int VALUE = 3;
+    int END = 4;
+    int VALUE_NULL = 5;
 
     int token();
 
@@ -52,7 +52,7 @@ public interface JSONLexer {
     String stringVal();
 
     boolean isEnabled(int feature);
-    
+
     boolean isEnabled(Feature feature);
 
     void config(Feature feature, boolean state);
@@ -80,10 +80,15 @@ public interface JSONLexer {
     float floatValue();
 
     int scanInt(char expectNext);
+
     long scanLong(char expectNextChar);
+
     float scanFloat(char seperator);
+
     double scanDouble(char seperator);
+
     boolean scanBoolean(char expectNext);
+
     BigDecimal scanDecimal(char seperator);
 
     String scanString(char expectNextChar);
@@ -95,12 +100,12 @@ public interface JSONLexer {
     void scanStringArray(Collection<String> collection, char seperator);
 
     TimeZone getTimeZone();
-    
+
     void setTimeZone(TimeZone timeZone);
-    
+
     Locale getLocale();
-    
+
     void setLocale(Locale locale);
-    
+
     String info();
 }

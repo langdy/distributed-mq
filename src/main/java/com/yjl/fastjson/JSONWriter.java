@@ -1,25 +1,23 @@
 package com.yjl.fastjson;
 
 import static com.yjl.fastjson.JSONStreamContext.*;
-
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
-
 import com.yjl.fastjson.serializer.JSONSerializer;
 import com.yjl.fastjson.serializer.SerializeWriter;
 import com.yjl.fastjson.serializer.SerializerFeature;
 
 public class JSONWriter implements Closeable, Flushable {
 
-    private SerializeWriter   writer;
+    private SerializeWriter writer;
 
-    private JSONSerializer    serializer;
+    private JSONSerializer serializer;
 
     private JSONStreamContext context;
 
-    public JSONWriter(Writer out){
+    public JSONWriter(Writer out) {
         writer = new SerializeWriter(out);
         serializer = new JSONSerializer(writer);
     }
@@ -101,7 +99,7 @@ public class JSONWriter implements Closeable, Flushable {
         if (context == null) {
             return;
         }
-        
+
         int newState = -1;
         switch (context.state) {
             case PropertyKey:
@@ -127,7 +125,7 @@ public class JSONWriter implements Closeable, Flushable {
         if (context == null) {
             return;
         }
-        
+
         switch (context.state) {
             case StartObject:
             case StartArray:

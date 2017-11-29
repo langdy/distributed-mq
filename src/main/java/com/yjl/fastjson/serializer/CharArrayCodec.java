@@ -3,7 +3,6 @@ package com.yjl.fastjson.serializer;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -18,7 +17,7 @@ public class CharArrayCodec implements ObjectDeserializer {
     public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName) {
         return (T) deserialze(parser);
     }
-    
+
     @SuppressWarnings("unchecked")
     public static <T> T deserialze(DefaultJSONParser parser) {
         final JSONLexer lexer = parser.lexer;
@@ -27,7 +26,7 @@ public class CharArrayCodec implements ObjectDeserializer {
             lexer.nextToken(JSONToken.COMMA);
             return (T) val.toCharArray();
         }
-        
+
         if (lexer.token() == JSONToken.LITERAL_INT) {
             Number val = lexer.integerValue();
             lexer.nextToken(JSONToken.COMMA);
@@ -36,7 +35,7 @@ public class CharArrayCodec implements ObjectDeserializer {
 
         Object value = parser.parse();
 
-        if (value instanceof  String) {
+        if (value instanceof String) {
             return (T) ((String) value).toCharArray();
         }
 
@@ -67,8 +66,8 @@ public class CharArrayCodec implements ObjectDeserializer {
         }
 
         return value == null //
-            ? null //
-            : (T) JSON.toJSONString(value).toCharArray();
+                ? null //
+                : (T) JSON.toJSONString(value).toCharArray();
     }
 
     public int getFastMatchToken() {

@@ -5,7 +5,6 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import com.yjl.fastjson.JSONArray;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.util.TypeUtils;
@@ -13,50 +12,50 @@ import com.yjl.fastjson.util.TypeUtils;
 @SuppressWarnings("rawtypes")
 public final class ResolveFieldDeserializer extends FieldDeserializer {
 
-    private final int               index;
-    private final List              list;
+    private final int index;
+    private final List list;
     private final DefaultJSONParser parser;
-    
-    private final Object              key;
+
+    private final Object key;
     private final Map map;
-    
+
     private final Collection collection;
 
-    public ResolveFieldDeserializer(DefaultJSONParser parser, List list, int index){
+    public ResolveFieldDeserializer(DefaultJSONParser parser, List list, int index) {
         super(null, null);
         this.parser = parser;
         this.index = index;
         this.list = list;
-        
+
         key = null;
         map = null;
-        
+
         collection = null;
     }
-    
-    public ResolveFieldDeserializer(Map map, Object index){
+
+    public ResolveFieldDeserializer(Map map, Object index) {
         super(null, null);
-        
+
         this.parser = null;
         this.index = -1;
         this.list = null;
-        
+
         this.key = index;
         this.map = map;
-        
+
         collection = null;
     }
-    
-    public ResolveFieldDeserializer(Collection collection){
+
+    public ResolveFieldDeserializer(Collection collection) {
         super(null, null);
-        
+
         this.parser = null;
         this.index = -1;
         this.list = null;
-        
+
         key = null;
         map = null;
-        
+
         this.collection = collection;
     }
 
@@ -66,12 +65,12 @@ public final class ResolveFieldDeserializer extends FieldDeserializer {
             map.put(key, value);
             return;
         }
-        
+
         if (collection != null) {
             collection.add(value);
             return;
         }
-        
+
         list.set(index, value);
 
         if (list instanceof JSONArray) {
@@ -84,7 +83,8 @@ public final class ResolveFieldDeserializer extends FieldDeserializer {
                 if (arrayLength > index) {
                     Object item;
                     if (jsonArray.getComponentType() != null) {
-                        item = TypeUtils.cast(value, jsonArray.getComponentType(), parser.getConfig());
+                        item = TypeUtils.cast(value, jsonArray.getComponentType(),
+                                parser.getConfig());
                     } else {
                         item = value;
                     }
@@ -94,7 +94,8 @@ public final class ResolveFieldDeserializer extends FieldDeserializer {
         }
     }
 
-    public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
+    public void parseField(DefaultJSONParser parser, Object object, Type objectType,
+            Map<String, Object> fieldValues) {
 
     }
 

@@ -5,25 +5,25 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.sql.Clob;
 import java.sql.SQLException;
-
 import com.yjl.fastjson.JSONException;
 
 public class ClobSeriliazer implements ObjectSerializer {
 
     public final static ClobSeriliazer instance = new ClobSeriliazer();
 
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
+            int features) throws IOException {
         try {
             if (object == null) {
                 serializer.writeNull();
                 return;
             }
-            
+
             Clob clob = (Clob) object;
             Reader reader = clob.getCharacterStream();
 
             StringBuilder buf = new StringBuilder();
-            
+
             try {
                 char[] chars = new char[2048];
                 for (;;) {
@@ -33,10 +33,10 @@ public class ClobSeriliazer implements ObjectSerializer {
                     }
                     buf.append(chars, 0, len);
                 }
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 throw new JSONException("read string from reader error", ex);
             }
-            
+
             String text = buf.toString();
             reader.close();
             serializer.write(text);

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.yjl.fastjson.serializer.JSONSerializable;
 import com.yjl.fastjson.serializer.JSONSerializer;
 import com.yjl.fastjson.serializer.SerializeWriter;
@@ -12,7 +11,7 @@ import com.yjl.fastjson.serializer.SerializerFeature;
 
 public class JSONPObject implements JSONSerializable {
     public static String SECURITY_PREFIX = "/**/";
-    private String             function;
+    private String function;
 
     private static final int BrowserSecureMask = SerializerFeature.BrowserSecure.mask;
 
@@ -46,7 +45,8 @@ public class JSONPObject implements JSONSerializable {
         return toString();
     }
 
-    public void write(JSONSerializer serializer, Object fieldName, Type fieldType, int features) throws IOException {
+    public void write(JSONSerializer serializer, Object fieldName, Type fieldType, int features)
+            throws IOException {
         SerializeWriter writer = serializer.out;
 
         if ((features & BrowserSecureMask) != 0 || (writer.isEnabled(BrowserSecureMask))) {

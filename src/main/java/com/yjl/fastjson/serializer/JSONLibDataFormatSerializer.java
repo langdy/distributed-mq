@@ -3,23 +3,22 @@ package com.yjl.fastjson.serializer;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Date;
-
 import com.yjl.fastjson.JSONObject;
 
 public class JSONLibDataFormatSerializer implements ObjectSerializer {
 
-    public JSONLibDataFormatSerializer(){
-    }
+    public JSONLibDataFormatSerializer() {}
 
     @SuppressWarnings("deprecation")
-    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
-    	if (object == null) {
-    		serializer.out.writeNull();
-    		return;
-    	}
-    	
+    public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
+            int features) throws IOException {
+        if (object == null) {
+            serializer.out.writeNull();
+            return;
+        }
+
         Date date = (Date) object;
-       
+
         JSONObject json = new JSONObject();
         json.put("date", date.getDate());
         json.put("day", date.getDay());

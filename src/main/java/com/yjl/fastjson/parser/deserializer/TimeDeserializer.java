@@ -1,7 +1,6 @@
 package com.yjl.fastjson.parser.deserializer;
 
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
@@ -15,30 +14,30 @@ public class TimeDeserializer implements ObjectDeserializer {
     @SuppressWarnings("unchecked")
     public <T> T deserialze(DefaultJSONParser parser, Type clazz, Object fieldName) {
         JSONLexer lexer = parser.lexer;
-        
+
         if (lexer.token() == JSONToken.COMMA) {
             lexer.nextToken(JSONToken.LITERAL_STRING);
-            
+
             if (lexer.token() != JSONToken.LITERAL_STRING) {
                 throw new JSONException("syntax error");
             }
-            
+
             lexer.nextTokenWithColon(JSONToken.LITERAL_INT);
-            
+
             if (lexer.token() != JSONToken.LITERAL_INT) {
                 throw new JSONException("syntax error");
             }
-            
+
             long time = lexer.longValue();
             lexer.nextToken(JSONToken.RBRACE);
             if (lexer.token() != JSONToken.RBRACE) {
                 throw new JSONException("syntax error");
             }
             lexer.nextToken(JSONToken.COMMA);
-            
+
             return (T) new java.sql.Time(time);
         }
-        
+
         Object val = parser.parse();
 
         if (val == null) {
@@ -54,14 +53,14 @@ public class TimeDeserializer implements ObjectDeserializer {
             if (strVal.length() == 0) {
                 return null;
             }
-            
+
             long longVal;
             JSONScanner dateLexer = new JSONScanner(strVal);
             if (dateLexer.scanISO8601DateIfMatch()) {
                 longVal = dateLexer.getCalendar().getTimeInMillis();
             } else {
                 boolean isDigit = true;
-                for (int i = 0; i< strVal.length(); ++i) {
+                for (int i = 0; i < strVal.length(); ++i) {
                     char ch = strVal.charAt(i);
                     if (ch < '0' || ch > '9') {
                         isDigit = false;
@@ -70,15 +69,15 @@ public class TimeDeserializer implements ObjectDeserializer {
                 }
                 if (!isDigit) {
                     dateLexer.close();
-                    return (T) java.sql.Time.valueOf(strVal);    
+                    return (T) java.sql.Time.valueOf(strVal);
                 }
-                
+
                 longVal = Long.parseLong(strVal);
             }
             dateLexer.close();
             return (T) new java.sql.Time(longVal);
         }
-        
+
         throw new JSONException("parse error");
     }
 

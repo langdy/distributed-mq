@@ -1,31 +1,23 @@
 /***
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2007 INRIA, France Telecom
- * All rights reserved.
+ * ASM: a very small and fast Java bytecode manipulation framework Copyright (c) 2000-2007 INRIA,
+ * France Telecom All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met: 1. Redistributions of source code must retain the
+ * above copyright notice, this list of conditions and the following disclaimer. 2. Redistributions
+ * in binary form must reproduce the above copyright notice, this list of conditions and the
+ * following disclaimer in the documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holders nor the names of its contributors may be used to
+ * endorse or promote products derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
- * THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 package com.yjl.fastjson.asm;
 
@@ -38,68 +30,71 @@ public class MethodWriter implements MethodVisitor {
     /**
      * Next method writer (see {@link ClassWriter#firstMethod firstMethod}).
      */
-    MethodWriter       next;
+    MethodWriter next;
 
     /**
      * The class writer to which this method must be added.
      */
-    final ClassWriter  cw;
+    final ClassWriter cw;
 
     /**
      * Access flags of this method.
      */
-    private int        access;
+    private int access;
 
     /**
      * The index of the constant pool item that contains the name of this method.
      */
-    private final int  name;
+    private final int name;
 
     /**
      * The index of the constant pool item that contains the descriptor of this method.
      */
-    private final int  desc;
+    private final int desc;
 
     /**
      * Number of exceptions that can be thrown by this method.
      */
-    int                exceptionCount;
+    int exceptionCount;
 
     /**
-     * The exceptions that can be thrown by this method. More precisely, this array contains the indexes of the constant
-     * pool items that contain the internal names of these exception classes.
+     * The exceptions that can be thrown by this method. More precisely, this array contains the
+     * indexes of the constant pool items that contain the internal names of these exception
+     * classes.
      */
-    int[]              exceptions;
+    int[] exceptions;
 
     /**
      * The bytecode of this method.
      */
-    private ByteVector code                                    = new ByteVector();
+    private ByteVector code = new ByteVector();
 
     /**
      * Maximum stack size of this method.
      */
-    private int        maxStack;
+    private int maxStack;
 
     /**
      * Maximum number of local variables for this method.
      */
-    private int        maxLocals;
+    private int maxLocals;
 
     // ------------------------------------------------------------------------
 
     /*
-     * Fields for the control flow graph analysis algorithm (used to compute the maximum stack size). A control flow
-     * graph contains one node per "basic block", and one edge per "jump" from one basic block to another. Each node
-     * (i.e., each basic block) is represented by the Label object that corresponds to the first instruction of this
-     * basic block. Each node also stores the list of its successors in the graph, as a linked list of Edge objects.
+     * Fields for the control flow graph analysis algorithm (used to compute the maximum stack
+     * size). A control flow graph contains one node per "basic block", and one edge per "jump" from
+     * one basic block to another. Each node (i.e., each basic block) is represented by the Label
+     * object that corresponds to the first instruction of this basic block. Each node also stores
+     * the list of its successors in the graph, as a linked list of Edge objects.
      */
 
     // ------------------------------------------------------------------------
     // Constructor
     // ------------------------------------------------------------------------
 
-    public MethodWriter(final ClassWriter cw, final int access, final String name, final String desc, final String signature, final String[] exceptions){
+    public MethodWriter(final ClassWriter cw, final int access, final String name,
+            final String desc, final String signature, final String[] exceptions) {
         if (cw.firstMethod == null) {
             cw.firstMethod = this;
         } else {
@@ -168,14 +163,16 @@ public class MethodWriter implements MethodVisitor {
         code.put12(opcode, i.index);
     }
 
-    public void visitFieldInsn(final int opcode, final String owner, final String name, final String desc) {
+    public void visitFieldInsn(final int opcode, final String owner, final String name,
+            final String desc) {
         Item i = cw.newFieldItem(owner, name, desc);
         // Label currentBlock = this.currentBlock;
         // adds the instruction to the bytecode of the method
         code.put12(opcode, i.index);
     }
 
-    public void visitMethodInsn(final int opcode, final String owner, final String name, final String desc) {
+    public void visitMethodInsn(final int opcode, final String owner, final String name,
+            final String desc) {
         boolean itf = opcode == Opcodes.INVOKEINTERFACE;
         Item i = cw.newMethodItem(owner, name, desc, itf);
         int argSize = i.intVal;
@@ -195,13 +192,14 @@ public class MethodWriter implements MethodVisitor {
     public void visitJumpInsn(final int opcode, final Label label) {
         // Label currentBlock = this.currentBlock;
         // adds the instruction to the bytecode of the method
-        if ((label.status & 2 /* Label.RESOLVED */ ) != 0 && label.position - code.length < Short.MIN_VALUE) {
+        if ((label.status & 2 /* Label.RESOLVED */ ) != 0
+                && label.position - code.length < Short.MIN_VALUE) {
             throw new UnsupportedOperationException();
         } else {
             /*
-             * case of a backward jump with an offset >= -32768, or of a forward jump with, of course, an unknown
-             * offset. In these cases we store the offset in 2 bytes (which will be increased in resizeInstructions, if
-             * needed).
+             * case of a backward jump with an offset >= -32768, or of a forward jump with, of
+             * course, an unknown offset. In these cases we store the offset in 2 bytes (which will
+             * be increased in resizeInstructions, if needed).
              */
             code.putByte(opcode);
             label.put(this, code, code.length - 1);
@@ -223,17 +221,17 @@ public class MethodWriter implements MethodVisitor {
         } else if (index >= 256) {
             code.put12(19 /* LDC_W */, index);
         } else {
-            code.put11(18 /*Opcodes.LDC*/, index);
+            code.put11(18 /* Opcodes.LDC */, index);
         }
     }
 
     public void visitIincInsn(final int var, final int increment) {
         // adds the instruction to the bytecode of the method
-//        if ((var > 255) || (increment > 127) || (increment < -128)) {
-//            code.putByte(196 /* WIDE */).put12(Opcodes.IINC, var).putShort(increment);
-//        } else {
-            code.putByte(132 /* Opcodes.IINC*/ ).put11(var, increment);
-//        }
+        // if ((var > 255) || (increment > 127) || (increment < -128)) {
+        // code.putByte(196 /* WIDE */).put12(Opcodes.IINC, var).putShort(increment);
+        // } else {
+        code.putByte(132 /* Opcodes.IINC */ ).put11(var, increment);
+        // }
     }
 
     public void visitMaxs(final int maxStack, final int maxLocals) {
@@ -241,8 +239,7 @@ public class MethodWriter implements MethodVisitor {
         this.maxLocals = maxLocals;
     }
 
-    public void visitEnd() {
-    }
+    public void visitEnd() {}
 
     // ------------------------------------------------------------------------
     // Utility methods: control flow analysis algorithm
@@ -280,7 +277,9 @@ public class MethodWriter implements MethodVisitor {
      * @param out the byte vector into which the bytecode of this method must be copied.
      */
     final void put(final ByteVector out) {
-        final int mask = 393216; //Opcodes.ACC_DEPRECATED | ClassWriter.ACC_SYNTHETIC_ATTRIBUTE | ((access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) / (ClassWriter.ACC_SYNTHETIC_ATTRIBUTE / Opcodes.ACC_SYNTHETIC));
+        final int mask = 393216; // Opcodes.ACC_DEPRECATED | ClassWriter.ACC_SYNTHETIC_ATTRIBUTE |
+                                 // ((access & ClassWriter.ACC_SYNTHETIC_ATTRIBUTE) /
+                                 // (ClassWriter.ACC_SYNTHETIC_ATTRIBUTE / Opcodes.ACC_SYNTHETIC));
         out.putShort(access & ~mask).putShort(name).putShort(desc);
         int attributeCount = 0;
         if (code.length > 0) {

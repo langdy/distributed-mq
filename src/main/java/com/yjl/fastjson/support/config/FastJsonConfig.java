@@ -4,7 +4,6 @@ package com.yjl.fastjson.support.config;
 import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import com.yjl.fastjson.parser.Feature;
 import com.yjl.fastjson.parser.ParserConfig;
 import com.yjl.fastjson.serializer.SerializeConfig;
@@ -78,9 +77,7 @@ public class FastJsonConfig {
         this.serializeConfig = SerializeConfig.getGlobalInstance();
         this.parserConfig = new ParserConfig();
 
-        this.serializerFeatures = new SerializerFeature[] {
-                SerializerFeature.BrowserSecure
-        };
+        this.serializerFeatures = new SerializerFeature[] {SerializerFeature.BrowserSecure};
 
         this.serializeFilters = new SerializeFilter[0];
         this.features = new Feature[0];
@@ -166,8 +163,7 @@ public class FastJsonConfig {
     /**
      * @param classSerializeFilters the classSerializeFilters to set
      */
-    public void setClassSerializeFilters(
-            Map<Class<?>, SerializeFilter> classSerializeFilters) {
+    public void setClassSerializeFilters(Map<Class<?>, SerializeFilter> classSerializeFilters) {
 
         if (classSerializeFilters == null)
             return;

@@ -7,7 +7,6 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.Feature;
 import com.yjl.fastjson.parser.JSONLexer;
@@ -19,11 +18,12 @@ import com.yjl.fastjson.util.ParameterizedTypeImpl;
 
 public class ArrayListTypeFieldDeserializer extends FieldDeserializer {
 
-    private final Type         itemType;
-    private int                itemFastMatchToken;
+    private final Type itemType;
+    private int itemFastMatchToken;
     private ObjectDeserializer deserializer;
 
-    public ArrayListTypeFieldDeserializer(ParserConfig mapping, Class<?> clazz, FieldInfo fieldInfo){
+    public ArrayListTypeFieldDeserializer(ParserConfig mapping, Class<?> clazz,
+            FieldInfo fieldInfo) {
         super(clazz, fieldInfo);
 
         Type fieldType = fieldInfo.fieldType;
@@ -48,7 +48,8 @@ public class ArrayListTypeFieldDeserializer extends FieldDeserializer {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void parseField(DefaultJSONParser parser, Object object, Type objectType, Map<String, Object> fieldValues) {
+    public void parseField(DefaultJSONParser parser, Object object, Type objectType,
+            Map<String, Object> fieldValues) {
         JSONLexer lexer = parser.lexer;
         final int token = lexer.token();
         if (token == JSONToken.NULL
@@ -72,7 +73,7 @@ public class ArrayListTypeFieldDeserializer extends FieldDeserializer {
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public final void parseArray(DefaultJSONParser parser, Type objectType, Collection array) {
         Type itemType = this.itemType;
         ObjectDeserializer itemTypeDeser = this.deserializer;
@@ -107,7 +108,8 @@ public class ArrayListTypeFieldDeserializer extends FieldDeserializer {
             } else if (itemType instanceof ParameterizedType) {
                 ParameterizedType parameterizedItemType = (ParameterizedType) itemType;
                 Type[] itemActualTypeArgs = parameterizedItemType.getActualTypeArguments();
-                if (itemActualTypeArgs.length == 1 && itemActualTypeArgs[0] instanceof TypeVariable) {
+                if (itemActualTypeArgs.length == 1
+                        && itemActualTypeArgs[0] instanceof TypeVariable) {
                     TypeVariable typeVar = (TypeVariable) itemActualTypeArgs[0];
                     ParameterizedType paramType = (ParameterizedType) objectType;
 
@@ -118,7 +120,8 @@ public class ArrayListTypeFieldDeserializer extends FieldDeserializer {
 
                     int paramIndex = -1;
                     if (objectClass != null) {
-                        for (int i = 0, size = objectClass.getTypeParameters().length; i < size; ++i) {
+                        for (int i = 0, size =
+                                objectClass.getTypeParameters().length; i < size; ++i) {
                             TypeVariable item = objectClass.getTypeParameters()[i];
                             if (item.getName().equals(typeVar.getName())) {
                                 paramIndex = i;
@@ -130,7 +133,9 @@ public class ArrayListTypeFieldDeserializer extends FieldDeserializer {
 
                     if (paramIndex != -1) {
                         itemActualTypeArgs[0] = paramType.getActualTypeArguments()[paramIndex];
-                        itemType = new ParameterizedTypeImpl(itemActualTypeArgs, parameterizedItemType.getOwnerType(), parameterizedItemType.getRawType());
+                        itemType = new ParameterizedTypeImpl(itemActualTypeArgs,
+                                parameterizedItemType.getOwnerType(),
+                                parameterizedItemType.getRawType());
                     }
                 }
             }

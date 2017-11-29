@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -18,14 +17,14 @@ import com.yjl.fastjson.util.TypeUtils;
 
 public class ThrowableDeserializer extends JavaBeanDeserializer {
 
-    public ThrowableDeserializer(ParserConfig mapping, Class<?> clazz){
+    public ThrowableDeserializer(ParserConfig mapping, Class<?> clazz) {
         super(mapping, clazz, clazz);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
         JSONLexer lexer = parser.lexer;
-        
+
         if (lexer.token() == JSONToken.NULL) {
             lexer.nextToken();
             return null;
@@ -41,14 +40,14 @@ public class ThrowableDeserializer extends JavaBeanDeserializer {
 
         Throwable cause = null;
         Class<?> exClass = null;
-        
+
         if (type != null && type instanceof Class) {
-        	Class<?> clazz = (Class<?>) type;
-        	if (Throwable.class.isAssignableFrom(clazz)) {
-        		exClass = clazz;
-        	}
+            Class<?> clazz = (Class<?>) type;
+            if (Throwable.class.isAssignableFrom(clazz)) {
+                exClass = clazz;
+            }
         }
-        
+
         String message = null;
         StackTraceElement[] stackTrace = null;
         Map<String, Object> otherValues = null;
@@ -156,12 +155,13 @@ public class ThrowableDeserializer extends JavaBeanDeserializer {
         return (T) ex;
     }
 
-    private Throwable createException(String message, Throwable cause, Class<?> exClass) throws Exception {
+    private Throwable createException(String message, Throwable cause, Class<?> exClass)
+            throws Exception {
         Constructor<?> defaultConstructor = null;
         Constructor<?> messageConstructor = null;
         Constructor<?> causeConstructor = null;
         for (Constructor<?> constructor : exClass.getConstructors()) {
-        	Class<?>[] types = constructor.getParameterTypes();
+            Class<?>[] types = constructor.getParameterTypes();
             if (types.length == 0) {
                 defaultConstructor = constructor;
                 continue;

@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson;
 
@@ -28,7 +26,6 @@ import static com.yjl.fastjson.util.TypeUtils.castToLong;
 import static com.yjl.fastjson.util.TypeUtils.castToShort;
 import static com.yjl.fastjson.util.TypeUtils.castToSqlDate;
 import static com.yjl.fastjson.util.TypeUtils.castToTimestamp;
-
 import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -41,7 +38,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-
 import com.yjl.fastjson.annotation.JSONField;
 import com.yjl.fastjson.parser.ParserConfig;
 import com.yjl.fastjson.util.TypeUtils;
@@ -49,30 +45,31 @@ import com.yjl.fastjson.util.TypeUtils;
 /**
  * @author wenshao[szujobs@hotmail.com]
  */
-public class JSONObject extends JSON implements Map<String, Object>, Cloneable, Serializable, InvocationHandler {
+public class JSONObject extends JSON
+        implements Map<String, Object>, Cloneable, Serializable, InvocationHandler {
 
-    private static final long         serialVersionUID         = 1L;
-    private static final int          DEFAULT_INITIAL_CAPACITY = 16;
+    private static final long serialVersionUID = 1L;
+    private static final int DEFAULT_INITIAL_CAPACITY = 16;
 
     private final Map<String, Object> map;
 
-    public JSONObject(){
+    public JSONObject() {
         this(DEFAULT_INITIAL_CAPACITY, false);
     }
 
-    public JSONObject(Map<String, Object> map){
+    public JSONObject(Map<String, Object> map) {
         this.map = map;
     }
 
-    public JSONObject(boolean ordered){
+    public JSONObject(boolean ordered) {
         this(DEFAULT_INITIAL_CAPACITY, ordered);
     }
 
-    public JSONObject(int initialCapacity){
+    public JSONObject(int initialCapacity) {
         this(initialCapacity, false);
     }
 
-    public JSONObject(int initialCapacity, boolean ordered){
+    public JSONObject(int initialCapacity, boolean ordered) {
         if (ordered) {
             map = new LinkedHashMap<String, Object>(initialCapacity);
         } else {
@@ -324,11 +321,11 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
 
         return castToTimestamp(value);
     }
-    
+
     public Object put(String key, Object value) {
         return map.put(key, value);
     }
-    
+
     public JSONObject fluentPut(String key, Object value) {
         map.put(key, value);
         return this;
@@ -376,9 +373,8 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
     @Override
     public Object clone() {
         return new JSONObject(map instanceof LinkedHashMap //
-                              ? new LinkedHashMap<String, Object>(map) //
-                                  : new HashMap<String, Object>(map)
-                                  );
+                ? new LinkedHashMap<String, Object>(map) //
+                : new HashMap<String, Object>(map));
     }
 
     public boolean equals(Object obj) {
@@ -395,7 +391,7 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
             if (method.getName().equals("equals")) {
                 return this.equals(args[0]);
             }
-            
+
             Class<?> returnType = method.getReturnType();
             if (returnType != void.class) {
                 throw new JSONException("illegal setter");
@@ -411,7 +407,7 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
 
             if (name == null) {
                 name = method.getName();
-                
+
                 if (!name.startsWith("set")) {
                     throw new JSONException("illegal setter");
                 }
@@ -463,9 +459,10 @@ public class JSONObject extends JSON implements Map<String, Object>, Cloneable, 
                     throw new JSONException("illegal getter");
                 }
             }
-            
+
             Object value = map.get(name);
-            return TypeUtils.cast(value, method.getGenericReturnType(), ParserConfig.getGlobalInstance());
+            return TypeUtils.cast(value, method.getGenericReturnType(),
+                    ParserConfig.getGlobalInstance());
         }
 
         throw new UnsupportedOperationException(method.toGenericString());

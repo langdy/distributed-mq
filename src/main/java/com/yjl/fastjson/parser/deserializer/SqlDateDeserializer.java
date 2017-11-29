@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONScanner;
@@ -14,13 +13,13 @@ public class SqlDateDeserializer extends AbstractDateDeserializer implements Obj
 
     public final static SqlDateDeserializer instance = new SqlDateDeserializer();
     public final static SqlDateDeserializer instance_timestamp = new SqlDateDeserializer(true);
-    
-    private boolean                           timestamp = false;
-    
+
+    private boolean timestamp = false;
+
     public SqlDateDeserializer() {
-        
+
     }
-    
+
     public SqlDateDeserializer(boolean timestmap) {
         this.timestamp = true;
     }
@@ -30,7 +29,7 @@ public class SqlDateDeserializer extends AbstractDateDeserializer implements Obj
         if (timestamp) {
             return castTimestamp(parser, clazz, fieldName, val);
         }
-        
+
         if (val == null) {
             return null;
         }
@@ -74,9 +73,10 @@ public class SqlDateDeserializer extends AbstractDateDeserializer implements Obj
 
         return (T) val;
     }
-    
+
     @SuppressWarnings("unchecked")
-    protected <T> T castTimestamp(DefaultJSONParser parser, Type clazz, Object fieldName, Object val) {
+    protected <T> T castTimestamp(DefaultJSONParser parser, Type clazz, Object fieldName,
+            Object val) {
 
         if (val == null) {
             return null;

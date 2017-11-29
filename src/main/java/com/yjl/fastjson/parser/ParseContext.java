@@ -4,13 +4,13 @@ import java.lang.reflect.Type;
 
 public class ParseContext {
 
-    public Object             object;
+    public Object object;
     public final ParseContext parent;
-    public final Object       fieldName;
-    public Type               type;
-    private transient String  path;
+    public final Object fieldName;
+    public Type type;
+    private transient String path;
 
-    public ParseContext(ParseContext parent, Object object, Object fieldName){
+    public ParseContext(ParseContext parent, Object object, Object fieldName) {
         this.parent = parent;
         this.object = object;
         this.fieldName = fieldName;

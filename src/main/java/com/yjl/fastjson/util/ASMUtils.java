@@ -6,30 +6,29 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.asm.ClassReader;
 import com.yjl.fastjson.asm.TypeCollector;
 
 public class ASMUtils {
 
     public static final String JAVA_VM_NAME = System.getProperty("java.vm.name");
-    
+
     public static final boolean IS_ANDROID = isAndroid(JAVA_VM_NAME);
-	
+
     public static boolean isAndroid(String vmName) {
         if (vmName == null) { // default is false
             return false;
         }
-        
+
         String lowerVMName = vmName.toLowerCase();
-        
+
         return lowerVMName.contains("dalvik") //
-               || lowerVMName.contains("lemur") // aliyun-vm name
+                || lowerVMName.contains("lemur") // aliyun-vm name
         ;
     }
 
-    public static String desc(Method method) {   
-    	Class<?>[] types = method.getParameterTypes();
+    public static String desc(Method method) {
+        Class<?>[] types = method.getParameterTypes();
         StringBuilder buf = new StringBuilder((types.length + 1) << 4);
         buf.append('(');
         for (int i = 0; i < types.length; ++i) {
@@ -62,7 +61,7 @@ public class ASMUtils {
             }
         }
     }
-    
+
 
     public static String getPrimitiveLetter(Class<?> type) {
         if (Integer.TYPE == type) {
@@ -85,7 +84,8 @@ public class ASMUtils {
             return "D";
         }
 
-        throw new IllegalStateException("Type: " + type.getCanonicalName() + " is not a primitive type");
+        throw new IllegalStateException(
+                "Type: " + type.getCanonicalName() + " is not a primitive type");
     }
 
     public static Type getMethodType(Class<?> clazz, String methodName) {
@@ -105,7 +105,7 @@ public class ASMUtils {
                 return false;
             }
         }
-        
+
         return true;
     }
 

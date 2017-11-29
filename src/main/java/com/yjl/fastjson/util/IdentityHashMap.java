@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.util;
 
@@ -25,14 +23,14 @@ import java.util.Collections;
 @SuppressWarnings("unchecked")
 public class IdentityHashMap<K, V> {
     private final Entry<K, V>[] buckets;
-    private final int           indexMask;
+    private final int indexMask;
     public final static int DEFAULT_SIZE = 8192;
 
-    public IdentityHashMap(){
+    public IdentityHashMap() {
         this(DEFAULT_SIZE);
     }
 
-    public IdentityHashMap(int tableSize){
+    public IdentityHashMap(int tableSize) {
         this.indexMask = tableSize - 1;
         this.buckets = new Entry[tableSize];
     }
@@ -85,20 +83,20 @@ public class IdentityHashMap<K, V> {
         }
 
         Entry<K, V> entry = new Entry<K, V>(key, value, hash, buckets[bucket]);
-        buckets[bucket] = entry;  // 并发是处理时会可能导致缓存丢失，但不影响正确性
+        buckets[bucket] = entry; // 并发是处理时会可能导致缓存丢失，但不影响正确性
 
         return false;
     }
 
     protected static final class Entry<K, V> {
 
-        public final int   hashCode;
-        public final K     key;
-        public V     value;
+        public final int hashCode;
+        public final K key;
+        public V value;
 
         public final Entry<K, V> next;
 
-        public Entry(K key, V value, int hash, Entry<K, V> next){
+        public Entry(K key, V value, int hash, Entry<K, V> next) {
             this.key = key;
             this.value = value;
             this.next = next;

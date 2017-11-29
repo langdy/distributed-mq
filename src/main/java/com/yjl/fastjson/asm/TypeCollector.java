@@ -7,14 +7,14 @@ import java.util.Map;
 public class TypeCollector {
     private static final Map<String, String> primitives = new HashMap<String, String>() {
         {
-            put("int","I");
-            put("boolean","Z");
+            put("int", "I");
+            put("boolean", "Z");
             put("byte", "B");
-            put("char","C");
-            put("short","S");
-            put("float","F");
-            put("long","J");
-            put("double","D");
+            put("char", "C");
+            put("short", "S");
+            put("float", "F");
+            put("long", "J");
+            put("double", "D");
         }
     };
 
@@ -57,8 +57,7 @@ public class TypeCollector {
             }
         }
 
-        return collector = new MethodCollector(
-                Modifier.isStatic(access) ? 0 : 1,
+        return collector = new MethodCollector(Modifier.isStatic(access) ? 0 : 1,
                 argTypes.length + longOrDoubleQuantity);
     }
 

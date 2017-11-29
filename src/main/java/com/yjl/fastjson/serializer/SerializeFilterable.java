@@ -4,21 +4,20 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.yjl.fastjson.JSON;
 
 public abstract class SerializeFilterable {
 
-    protected List<BeforeFilter>       beforeFilters       = null;
-    protected List<AfterFilter>        afterFilters        = null;
-    protected List<PropertyFilter>     propertyFilters     = null;
-    protected List<ValueFilter>        valueFilters        = null;
-    protected List<NameFilter>         nameFilters         = null;
-    protected List<PropertyPreFilter>  propertyPreFilters  = null;
-    protected List<LabelFilter>        labelFilters        = null;
+    protected List<BeforeFilter> beforeFilters = null;
+    protected List<AfterFilter> afterFilters = null;
+    protected List<PropertyFilter> propertyFilters = null;
+    protected List<ValueFilter> valueFilters = null;
+    protected List<NameFilter> nameFilters = null;
+    protected List<PropertyPreFilter> propertyPreFilters = null;
+    protected List<LabelFilter> labelFilters = null;
     protected List<ContextValueFilter> contextValueFilters = null;
 
-    protected boolean                  writeDirect         = true;
+    protected boolean writeDirect = true;
 
     public List<BeforeFilter> getBeforeFilters() {
         if (beforeFilters == null) {
@@ -131,7 +130,7 @@ public abstract class SerializeFilterable {
     }
 
     public boolean applyName(JSONSerializer jsonBeanDeser, //
-                             Object object, String key) {
+            Object object, String key) {
 
         if (jsonBeanDeser.propertyPreFilters != null) {
             for (PropertyPreFilter filter : jsonBeanDeser.propertyPreFilters) {
@@ -140,7 +139,7 @@ public abstract class SerializeFilterable {
                 }
             }
         }
-        
+
         if (this.propertyPreFilters != null) {
             for (PropertyPreFilter filter : this.propertyPreFilters) {
                 if (!filter.apply(jsonBeanDeser, object, key)) {
@@ -151,11 +150,11 @@ public abstract class SerializeFilterable {
 
         return true;
     }
-    
+
     public boolean apply(JSONSerializer jsonBeanDeser, //
-                         Object object, //
-                         String key, Object propertyValue) {
-        
+            Object object, //
+            String key, Object propertyValue) {
+
         if (jsonBeanDeser.propertyFilters != null) {
             for (PropertyFilter propertyFilter : jsonBeanDeser.propertyFilters) {
                 if (!propertyFilter.apply(object, key, propertyValue)) {
@@ -163,7 +162,7 @@ public abstract class SerializeFilterable {
                 }
             }
         }
-        
+
         if (this.propertyFilters != null) {
             for (PropertyFilter propertyFilter : this.propertyFilters) {
                 if (!propertyFilter.apply(object, key, propertyValue)) {
@@ -174,18 +173,18 @@ public abstract class SerializeFilterable {
 
         return true;
     }
-    
+
     protected String processKey(JSONSerializer jsonBeanDeser, //
-                             Object object, //
-                             String key, //
-                             Object propertyValue) {
+            Object object, //
+            String key, //
+            Object propertyValue) {
 
         if (jsonBeanDeser.nameFilters != null) {
             for (NameFilter nameFilter : jsonBeanDeser.nameFilters) {
                 key = nameFilter.process(object, key, propertyValue);
             }
         }
-        
+
         if (this.nameFilters != null) {
             for (NameFilter nameFilter : this.nameFilters) {
                 key = nameFilter.process(object, key, propertyValue);
@@ -194,20 +193,19 @@ public abstract class SerializeFilterable {
 
         return key;
     }
-    
+
     protected Object processValue(JSONSerializer jsonBeanDeser, //
-                               BeanContext beanContext,
-                               Object object, //
-                               String key, //
-                               Object propertyValue) {
+            BeanContext beanContext, Object object, //
+            String key, //
+            Object propertyValue) {
 
         if (propertyValue != null) {
             if ((jsonBeanDeser.out.writeNonStringValueAsString //
-                    || (beanContext != null && (beanContext.getFeatures() & SerializerFeature.WriteNonStringValueAsString.mask) != 0))
+                    || (beanContext != null && (beanContext.getFeatures()
+                            & SerializerFeature.WriteNonStringValueAsString.mask) != 0))
                     && (propertyValue instanceof Number || propertyValue instanceof Boolean)) {
                 String format = null;
-                if (propertyValue instanceof Number
-                        && beanContext != null) {
+                if (propertyValue instanceof Number && beanContext != null) {
                     format = beanContext.getFormat();
                 }
 
@@ -221,7 +219,7 @@ public abstract class SerializeFilterable {
                 propertyValue = JSON.parse(jsonStr);
             }
         }
-        
+
         if (jsonBeanDeser.valueFilters != null) {
             for (ValueFilter valueFilter : jsonBeanDeser.valueFilters) {
                 propertyValue = valueFilter.process(object, key, propertyValue);
@@ -249,7 +247,7 @@ public abstract class SerializeFilterable {
 
         return propertyValue;
     }
-    
+
     /**
      * only invoke by asm byte
      * 
@@ -257,7 +255,7 @@ public abstract class SerializeFilterable {
      */
     protected boolean writeDirect(JSONSerializer jsonBeanDeser) {
         return jsonBeanDeser.out.writeDirect //
-               && this.writeDirect //
-               && jsonBeanDeser.writeDirect;
+                && this.writeDirect //
+                && jsonBeanDeser.writeDirect;
     }
 }

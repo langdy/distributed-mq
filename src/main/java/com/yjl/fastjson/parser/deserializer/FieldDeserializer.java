@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.serializer.BeanContext;
@@ -18,17 +17,17 @@ public abstract class FieldDeserializer {
 
     public final FieldInfo fieldInfo;
 
-    protected final Class<?>  clazz;
-    
-    protected BeanContext    beanContext;
+    protected final Class<?> clazz;
 
-    public FieldDeserializer(Class<?> clazz, FieldInfo fieldInfo){
+    protected BeanContext beanContext;
+
+    public FieldDeserializer(Class<?> clazz, FieldInfo fieldInfo) {
         this.clazz = clazz;
         this.fieldInfo = fieldInfo;
     }
-    
+
     public abstract void parseField(DefaultJSONParser parser, Object object, Type objectType,
-                                    Map<String, Object> fieldValues);
+            Map<String, Object> fieldValues);
 
     public int getFastMatchToken() {
         return 0;
@@ -50,14 +49,13 @@ public abstract class FieldDeserializer {
         setValue(object, (Object) value);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void setValue(Object object, Object value) {
         if (value == null //
-            && fieldInfo.fieldClass.isPrimitive()) {
+                && fieldInfo.fieldClass.isPrimitive()) {
             return;
-        } else if (fieldInfo.fieldClass == String.class
-                && fieldInfo.format != null
-                && fieldInfo.format.equals("trim")){
+        } else if (fieldInfo.fieldClass == String.class && fieldInfo.format != null
+                && fieldInfo.format.equals("trim")) {
             value = ((String) value).trim();
         }
 
@@ -97,7 +95,7 @@ public abstract class FieldDeserializer {
                 }
             } else {
                 final Field field = fieldInfo.field;
-                
+
                 if (fieldInfo.getOnly) {
                     if (fieldInfo.fieldClass == AtomicInteger.class) {
                         AtomicInteger atomic = (AtomicInteger) field.get(object);

@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.parser;
 
@@ -20,12 +18,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigDecimal;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.util.IOUtils;
 
-//这个类，为了性能优化做了很多特别处理，一切都是为了性能！！！
+// 这个类，为了性能优化做了很多特别处理，一切都是为了性能！！！
 
 /**
  * @author wenshao[szujobs@hotmail.com]
@@ -34,27 +31,27 @@ public final class JSONReaderScanner extends JSONLexerBase {
 
     private final static ThreadLocal<char[]> BUF_LOCAL = new ThreadLocal<char[]>();
 
-    private Reader                           reader;
-    private char[]                           buf;
-    private int                              bufLength;
+    private Reader reader;
+    private char[] buf;
+    private int bufLength;
 
-    public JSONReaderScanner(String input){
+    public JSONReaderScanner(String input) {
         this(input, JSON.DEFAULT_PARSER_FEATURE);
     }
 
-    public JSONReaderScanner(String input, int features){
+    public JSONReaderScanner(String input, int features) {
         this(new StringReader(input), features);
     }
 
-    public JSONReaderScanner(char[] input, int inputLength){
+    public JSONReaderScanner(char[] input, int inputLength) {
         this(input, inputLength, JSON.DEFAULT_PARSER_FEATURE);
     }
 
-    public JSONReaderScanner(Reader reader){
+    public JSONReaderScanner(Reader reader) {
         this(reader, JSON.DEFAULT_PARSER_FEATURE);
     }
 
-    public JSONReaderScanner(Reader reader, int features){
+    public JSONReaderScanner(Reader reader, int features) {
         super(features);
         this.reader = reader;
 
@@ -81,7 +78,7 @@ public final class JSONReaderScanner extends JSONLexerBase {
         }
     }
 
-    public JSONReaderScanner(char[] input, int inputLength, int features){
+    public JSONReaderScanner(char[] input, int inputLength, int features) {
         this(new CharArrayReader(input, 0, inputLength), features);
     }
 
@@ -229,7 +226,8 @@ public final class JSONReaderScanner extends JSONLexerBase {
     }
 
     /**
-     * The value of a literal token, recorded as a string. For integers, leading 0x and 'l' suffixes are suppressed.
+     * The value of a literal token, recorded as a string. For integers, leading 0x and 'l' suffixes
+     * are suppressed.
      */
     public final String stringVal() {
         if (!hasSpecial) {
@@ -259,7 +257,7 @@ public final class JSONReaderScanner extends JSONLexerBase {
         if (count < 0) {
             throw new StringIndexOutOfBoundsException(count);
         }
-        
+
         if (offset == 0) {
             return buf;
         }
@@ -276,7 +274,8 @@ public final class JSONReaderScanner extends JSONLexerBase {
         char chLocal = charAt(offset + sp - 1);
 
         int sp = this.sp;
-        if (chLocal == 'L' || chLocal == 'S' || chLocal == 'B' || chLocal == 'F' || chLocal == 'D') {
+        if (chLocal == 'L' || chLocal == 'S' || chLocal == 'B' || chLocal == 'F'
+                || chLocal == 'D') {
             sp--;
         }
 
@@ -292,7 +291,8 @@ public final class JSONReaderScanner extends JSONLexerBase {
         char chLocal = charAt(offset + sp - 1);
 
         int sp = this.sp;
-        if (chLocal == 'L' || chLocal == 'S' || chLocal == 'B' || chLocal == 'F' || chLocal == 'D') {
+        if (chLocal == 'L' || chLocal == 'S' || chLocal == 'B' || chLocal == 'F'
+                || chLocal == 'D') {
             sp--;
         }
 

@@ -5,10 +5,11 @@ package com.yjl.fastjson.serializer;
  */
 public abstract class AfterFilter implements SerializeFilter {
 
-    private static final ThreadLocal<JSONSerializer> serializerLocal = new ThreadLocal<JSONSerializer>();
-    private static final ThreadLocal<Character>      seperatorLocal  = new ThreadLocal<Character>();
+    private static final ThreadLocal<JSONSerializer> serializerLocal =
+            new ThreadLocal<JSONSerializer>();
+    private static final ThreadLocal<Character> seperatorLocal = new ThreadLocal<Character>();
 
-    private final static Character                   COMMA           = Character.valueOf(',');
+    private final static Character COMMA = Character.valueOf(',');
 
     final char writeAfter(JSONSerializer serializer, Object object, char seperator) {
         serializerLocal.set(serializer);

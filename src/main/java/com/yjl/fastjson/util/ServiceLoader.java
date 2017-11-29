@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class ServiceLoader {
 
-    private static final String      PREFIX     = "META-INF/services/";
+    private static final String PREFIX = "META-INF/services/";
 
     private static final Set<String> loadedUrls = new HashSet<String>();
 
@@ -21,7 +21,7 @@ public class ServiceLoader {
         if (classLoader == null) {
             return Collections.emptySet();
         }
-        
+
         Set<T> services = new HashSet<T>();
 
         String className = clazz.getName();

@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson;
 
@@ -28,7 +26,6 @@ import static com.yjl.fastjson.util.TypeUtils.castToShort;
 import static com.yjl.fastjson.util.TypeUtils.castToSqlDate;
 import static com.yjl.fastjson.util.TypeUtils.castToString;
 import static com.yjl.fastjson.util.TypeUtils.castToTimestamp;
-
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -39,7 +36,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.RandomAccess;
-
 import com.yjl.fastjson.parser.ParserConfig;
 import com.yjl.fastjson.parser.deserializer.ObjectDeserializer;
 import com.yjl.fastjson.util.TypeUtils;
@@ -49,20 +45,20 @@ import com.yjl.fastjson.util.TypeUtils;
  */
 public class JSONArray extends JSON implements List<Object>, Cloneable, RandomAccess, Serializable {
 
-    private static final long  serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private final List<Object> list;
     protected transient Object relatedArray;
-    protected transient Type   componentType;
+    protected transient Type componentType;
 
-    public JSONArray(){
+    public JSONArray() {
         this.list = new ArrayList<Object>();
     }
 
-    public JSONArray(List<Object> list){
+    public JSONArray(List<Object> list) {
         this.list = list;
     }
 
-    public JSONArray(int initialCapacity){
+    public JSONArray(int initialCapacity) {
         this.list = new ArrayList<Object>(initialCapacity);
     }
 
@@ -182,7 +178,7 @@ public class JSONArray extends JSON implements List<Object>, Cloneable, RandomAc
             list.add(element);
             return null;
         }
-        
+
         if (list.size() <= index) {
             for (int i = list.size(); i < index; ++i) {
                 list.add(null);
@@ -190,7 +186,7 @@ public class JSONArray extends JSON implements List<Object>, Cloneable, RandomAc
             list.add(element);
             return null;
         }
-        
+
         return list.set(index, element);
     }
 
@@ -429,7 +425,7 @@ public class JSONArray extends JSON implements List<Object>, Cloneable, RandomAc
     }
 
     /**
-     * @since  1.2.23
+     * @since 1.2.23
      */
     public <T> List<T> toJavaList(Class<T> clazz) {
         List<T> list = new ArrayList<T>(this.size());

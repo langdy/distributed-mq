@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.serializer;
 
@@ -118,27 +116,27 @@ public enum SerializerFeature {
      * @since 1.1.37
      */
     WriteNonStringKeyAsString,
-    
+
     /**
      * @since 1.1.42
      */
     NotWriteDefaultValue,
-    
+
     /**
      * @since 1.2.6
      */
     BrowserSecure,
-    
+
     /**
      * @since 1.2.7
      */
     IgnoreNonFieldGetter,
-    
+
     /**
      * @since 1.2.9
      */
     WriteNonStringValueAsString,
-    
+
     /**
      * @since 1.2.11
      */
@@ -154,7 +152,7 @@ public enum SerializerFeature {
      */
     MapSortField;
 
-    SerializerFeature(){
+    SerializerFeature() {
         mask = (1 << ordinal());
     }
 
@@ -167,10 +165,10 @@ public enum SerializerFeature {
     public static boolean isEnabled(int features, SerializerFeature feature) {
         return (features & feature.mask) != 0;
     }
-    
+
     public static boolean isEnabled(int features, int fieaturesB, SerializerFeature feature) {
         int mask = feature.mask;
-        
+
         return (features & mask) != 0 || (fieaturesB & mask) != 0;
     }
 
@@ -183,28 +181,24 @@ public enum SerializerFeature {
 
         return features;
     }
-    
+
     public static int of(SerializerFeature[] features) {
         if (features == null) {
             return 0;
         }
-        
+
         int value = 0;
-        
-        for (SerializerFeature feature: features) {
+
+        for (SerializerFeature feature : features) {
             value |= feature.mask;
         }
-        
+
         return value;
     }
-    
+
     public final static SerializerFeature[] EMPTY = new SerializerFeature[0];
 
-    public static final int WRITE_MAP_NULL_FEATURES
-            = WriteMapNullValue.getMask()
-            | WriteNullBooleanAsFalse.getMask()
-            | WriteNullListAsEmpty.getMask()
-            | WriteNullNumberAsZero.getMask()
-            | WriteNullStringAsEmpty.getMask()
-            ;
+    public static final int WRITE_MAP_NULL_FEATURES = WriteMapNullValue.getMask()
+            | WriteNullBooleanAsFalse.getMask() | WriteNullListAsEmpty.getMask()
+            | WriteNullNumberAsZero.getMask() | WriteNullStringAsEmpty.getMask();
 }

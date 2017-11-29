@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.serializer;
 
@@ -21,7 +19,6 @@ import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-
 import com.yjl.fastjson.JSONArray;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
@@ -36,11 +33,10 @@ public class ObjectArrayCodec implements ObjectSerializer, ObjectDeserializer {
 
     public static final ObjectArrayCodec instance = new ObjectArrayCodec();
 
-    public ObjectArrayCodec(){
-    }
+    public ObjectArrayCodec() {}
 
-    public final void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features)
-                                                                                                       throws IOException {
+    public final void write(JSONSerializer serializer, Object object, Object fieldName,
+            Type fieldType, int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         Object[] array = (Object[]) object;
@@ -123,8 +119,8 @@ public class ObjectArrayCodec implements ObjectSerializer, ObjectDeserializer {
             serializer.context = context;
         }
     }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
         final JSONLexer lexer = parser.lexer;
         int token = lexer.token();

@@ -7,7 +7,6 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONToken;
 
@@ -37,9 +36,9 @@ public class JavaObjectDeserializer implements ObjectDeserializer {
             }
 
         }
-        
+
         if (type instanceof Class && type != Object.class && type != Serializable.class) {
-            return (T) parser.parseObject(type);    
+            return (T) parser.parseObject(type);
         }
 
         return (T) parser.parse(fieldName);

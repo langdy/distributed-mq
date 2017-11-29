@@ -1,17 +1,15 @@
 /*
  * Copyright 1999-2017 Alibaba Group.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.yjl.fastjson.serializer;
 
@@ -33,7 +31,6 @@ import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
-
 import com.yjl.fastjson.*;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
@@ -46,17 +43,18 @@ import com.yjl.fastjson.util.TypeUtils;
  * @author wenshao[szujobs@hotmail.com]
  */
 public class MiscCodec implements ObjectSerializer, ObjectDeserializer {
-    private static      boolean   FILE_RELATIVE_PATH_SUPPORT = false;
-    public final static MiscCodec instance                   = new MiscCodec();
-    private static      Method    method_paths_get;
-    private static      boolean   method_paths_get_error     = false;
+    private static boolean FILE_RELATIVE_PATH_SUPPORT = false;
+    public final static MiscCodec instance = new MiscCodec();
+    private static Method method_paths_get;
+    private static boolean method_paths_get_error = false;
 
     static {
-        FILE_RELATIVE_PATH_SUPPORT = "true".equals(IOUtils.getStringProperty("fastjson.deserializer.fileRelativePathSupport"));
+        FILE_RELATIVE_PATH_SUPPORT = "true"
+                .equals(IOUtils.getStringProperty("fastjson.deserializer.fileRelativePathSupport"));
     }
 
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
-                      int features) throws IOException {
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {
@@ -264,7 +262,7 @@ public class MiscCodec implements ObjectSerializer, ObjectDeserializer {
                 }
 
                 if (clazz == Map.Entry.class) {
-                   return (T) jsonObject.entrySet().iterator().next();
+                    return (T) jsonObject.entrySet().iterator().next();
                 }
             }
             throw new JSONException("expect string");
@@ -304,7 +302,8 @@ public class MiscCodec implements ObjectSerializer, ObjectDeserializer {
             return (T) dateFormat;
         }
 
-        if (clazz == InetAddress.class || clazz == Inet4Address.class || clazz == Inet6Address.class) {
+        if (clazz == InetAddress.class || clazz == Inet4Address.class
+                || clazz == Inet6Address.class) {
             try {
                 return (T) InetAddress.getByName(strVal);
             } catch (UnknownHostException e) {

@@ -2,7 +2,6 @@ package com.yjl.fastjson.parser.deserializer;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
-
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
@@ -18,7 +17,7 @@ public class EnumDeserializer implements ObjectDeserializer {
 
     protected long[] enumNameHashCodes;
 
-    public EnumDeserializer(Class<?> enumClass){
+    public EnumDeserializer(Class<?> enumClass) {
         this.enumClass = enumClass;
 
         ordinalEnums = (Enum[]) enumClass.getEnumConstants();
@@ -63,7 +62,7 @@ public class EnumDeserializer implements ObjectDeserializer {
 
         return enums[enumIndex];
     }
-    
+
     public Enum<?> valueOf(int ordinal) {
         return ordinalEnums[ordinal];
     }
@@ -79,7 +78,8 @@ public class EnumDeserializer implements ObjectDeserializer {
                 lexer.nextToken(JSONToken.COMMA);
 
                 if (intValue < 0 || intValue > ordinalEnums.length) {
-                    throw new JSONException("parse enum " + enumClass.getName() + " error, value : " + intValue);
+                    throw new JSONException(
+                            "parse enum " + enumClass.getName() + " error, value : " + intValue);
                 }
 
                 return (T) ordinalEnums[intValue];
@@ -101,7 +101,8 @@ public class EnumDeserializer implements ObjectDeserializer {
                 value = parser.parse();
             }
 
-            throw new JSONException("parse enum " + enumClass.getName() + " error, value : " + value);
+            throw new JSONException(
+                    "parse enum " + enumClass.getName() + " error, value : " + value);
         } catch (JSONException e) {
             throw e;
         } catch (Exception e) {

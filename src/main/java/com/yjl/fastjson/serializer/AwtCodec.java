@@ -6,7 +6,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.lang.reflect.Type;
-
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;
@@ -18,17 +17,17 @@ import com.yjl.fastjson.parser.deserializer.ObjectDeserializer;
 public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
 
     public final static AwtCodec instance = new AwtCodec();
-    
+
     public static boolean support(Class<?> clazz) {
         return clazz == Point.class //
-               || clazz == Rectangle.class //
-               || clazz == Font.class //
-               || clazz == Color.class //
+                || clazz == Rectangle.class //
+                || clazz == Font.class //
+                || clazz == Color.class //
         ;
     }
 
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType,
-                      int features) throws IOException {
+            int features) throws IOException {
         SerializeWriter out = serializer.out;
 
         if (object == null) {
@@ -40,33 +39,33 @@ public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
 
         if (object instanceof Point) {
             Point font = (Point) object;
-            
+
             sep = writeClassName(out, Point.class, sep);
-            
+
             out.writeFieldValue(sep, "x", font.x);
             out.writeFieldValue(',', "y", font.y);
         } else if (object instanceof Font) {
             Font font = (Font) object;
-            
+
             sep = writeClassName(out, Font.class, sep);
-            
+
             out.writeFieldValue(sep, "name", font.getName());
             out.writeFieldValue(',', "style", font.getStyle());
             out.writeFieldValue(',', "size", font.getSize());
         } else if (object instanceof Rectangle) {
             Rectangle rectangle = (Rectangle) object;
-            
+
             sep = writeClassName(out, Rectangle.class, sep);
-            
+
             out.writeFieldValue(sep, "x", rectangle.x);
             out.writeFieldValue(',', "y", rectangle.y);
             out.writeFieldValue(',', "width", rectangle.width);
             out.writeFieldValue(',', "height", rectangle.height);
         } else if (object instanceof Color) {
             Color color = (Color) object;
-            
+
             sep = writeClassName(out, Color.class, sep);
-            
+
             out.writeFieldValue(sep, "r", color.getRed());
             out.writeFieldValue(',', "g", color.getGreen());
             out.writeFieldValue(',', "b", color.getBlue());
@@ -125,10 +124,10 @@ public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
 
         return obj;
     }
-    
+
     protected Font parseFont(DefaultJSONParser parser) {
         JSONLexer lexer = parser.lexer;
-        
+
         int size = 0, style = 0;
         String name = null;
         for (;;) {
@@ -178,10 +177,10 @@ public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
 
         return new Font(name, style, size);
     }
-    
+
     protected Color parseColor(DefaultJSONParser parser) {
         JSONLexer lexer = parser.lexer;
-        
+
         int r = 0, g = 0, b = 0, alpha = 0;
         for (;;) {
             if (lexer.token() == JSONToken.RBRACE) {
@@ -224,10 +223,10 @@ public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
 
         return new Color(r, g, b, alpha);
     }
-    
+
     protected Rectangle parseRectangle(DefaultJSONParser parser) {
         JSONLexer lexer = parser.lexer;
-        
+
         int x = 0, y = 0, width = 0, height = 0;
         for (;;) {
             if (lexer.token() == JSONToken.RBRACE) {
@@ -277,7 +276,7 @@ public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
 
     protected Point parsePoint(DefaultJSONParser parser, Object fieldName) {
         JSONLexer lexer = parser.lexer;
-        
+
         int x = 0, y = 0;
         for (;;) {
             if (lexer.token() == JSONToken.RBRACE) {
@@ -308,7 +307,7 @@ public class AwtCodec implements ObjectSerializer, ObjectDeserializer {
             if (token == JSONToken.LITERAL_INT) {
                 val = lexer.intValue();
                 lexer.nextToken();
-            } else if(token == JSONToken.LITERAL_FLOAT) {
+            } else if (token == JSONToken.LITERAL_FLOAT) {
                 val = (int) lexer.floatValue();
                 lexer.nextToken();
             } else {
