@@ -13,7 +13,6 @@
  */
 package com.yjl.fastjson.parser;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,10 +21,8 @@ import java.util.HashSet;
 import java.util.TimeZone;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
-import com.yjl.fastjson.annotation.JSONType;
 import com.yjl.fastjson.util.ASMUtils;
 import com.yjl.fastjson.util.IOUtils;
-import com.yjl.fastjson.util.TypeUtils;
 
 // 这个类，为了性能优化做了很多特别处理，一切都是为了性能！！！
 

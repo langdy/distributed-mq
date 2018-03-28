@@ -19,7 +19,6 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.List;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;

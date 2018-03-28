@@ -9,7 +9,6 @@ import com.yjl.fastjson.parser.ParserConfig;
 import com.yjl.fastjson.serializer.SerializeConfig;
 import com.yjl.fastjson.serializer.SerializeFilter;
 import com.yjl.fastjson.serializer.SerializerFeature;
-import com.yjl.fastjson.util.IOUtils;
 
 /**
  * Config for FastJson.

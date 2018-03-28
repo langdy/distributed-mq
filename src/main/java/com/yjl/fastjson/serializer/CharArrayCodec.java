@@ -2,7 +2,6 @@ package com.yjl.fastjson.serializer;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.List;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.parser.DefaultJSONParser;

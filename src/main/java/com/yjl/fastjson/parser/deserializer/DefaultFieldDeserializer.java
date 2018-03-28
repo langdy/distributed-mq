@@ -5,16 +5,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.annotation.JSONField;
 import com.yjl.fastjson.parser.DefaultJSONParser;
+import com.yjl.fastjson.parser.DefaultJSONParser.ResolveTask;
 import com.yjl.fastjson.parser.JSONToken;
 import com.yjl.fastjson.parser.ParseContext;
 import com.yjl.fastjson.parser.ParserConfig;
-import com.yjl.fastjson.parser.DefaultJSONParser.ResolveTask;
 import com.yjl.fastjson.util.FieldInfo;
 
 public class DefaultFieldDeserializer extends FieldDeserializer {

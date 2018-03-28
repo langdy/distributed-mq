@@ -13,18 +13,32 @@
  */
 package com.yjl.fastjson.parser;
 
-import static com.yjl.fastjson.parser.JSONToken.*;
+import static com.yjl.fastjson.parser.JSONToken.COLON;
+import static com.yjl.fastjson.parser.JSONToken.COMMA;
+import static com.yjl.fastjson.parser.JSONToken.DOT;
+import static com.yjl.fastjson.parser.JSONToken.EOF;
+import static com.yjl.fastjson.parser.JSONToken.ERROR;
+import static com.yjl.fastjson.parser.JSONToken.LBRACE;
+import static com.yjl.fastjson.parser.JSONToken.LBRACKET;
+import static com.yjl.fastjson.parser.JSONToken.LITERAL_STRING;
+import static com.yjl.fastjson.parser.JSONToken.LPAREN;
+import static com.yjl.fastjson.parser.JSONToken.RBRACE;
+import static com.yjl.fastjson.parser.JSONToken.RBRACKET;
+import static com.yjl.fastjson.parser.JSONToken.RPAREN;
+import static com.yjl.fastjson.parser.JSONToken.SEMI;
 import java.io.Closeable;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.UUID;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONException;
-import com.yjl.fastjson.annotation.JSONType;
 import com.yjl.fastjson.util.IOUtils;
-import com.yjl.fastjson.util.TypeUtils;
 
 /**
  * @author wenshao[szujobs@hotmail.com]

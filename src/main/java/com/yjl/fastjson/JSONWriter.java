@@ -1,6 +1,10 @@
 package com.yjl.fastjson;
 
-import static com.yjl.fastjson.JSONStreamContext.*;
+import static com.yjl.fastjson.JSONStreamContext.ArrayValue;
+import static com.yjl.fastjson.JSONStreamContext.PropertyKey;
+import static com.yjl.fastjson.JSONStreamContext.PropertyValue;
+import static com.yjl.fastjson.JSONStreamContext.StartArray;
+import static com.yjl.fastjson.JSONStreamContext.StartObject;
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;

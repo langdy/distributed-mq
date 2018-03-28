@@ -6,7 +6,11 @@ import java.lang.reflect.Type;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONArray;
 import com.yjl.fastjson.JSONObject;
-import com.yjl.fastjson.parser.*;
+import com.yjl.fastjson.parser.DefaultJSONParser;
+import com.yjl.fastjson.parser.JSONLexerBase;
+import com.yjl.fastjson.parser.JSONToken;
+import com.yjl.fastjson.parser.ParseContext;
+import com.yjl.fastjson.parser.SymbolTable;
 import com.yjl.fastjson.util.TypeUtils;
 
 public class HSFJSONUtils {

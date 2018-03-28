@@ -3,7 +3,10 @@ package com.yjl.fastjson.parser.deserializer;
 import java.lang.reflect.Type;
 import com.yjl.fastjson.JSONException;
 import com.yjl.fastjson.JSONPObject;
-import com.yjl.fastjson.parser.*;
+import com.yjl.fastjson.parser.DefaultJSONParser;
+import com.yjl.fastjson.parser.JSONLexerBase;
+import com.yjl.fastjson.parser.JSONToken;
+import com.yjl.fastjson.parser.SymbolTable;
 
 /**
  * Created by wenshao on 21/02/2017.

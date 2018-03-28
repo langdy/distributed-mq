@@ -13,8 +13,6 @@
  */
 package com.yjl.fastjson.util;
 
-import java.util.Collections;
-
 /**
  * for concurrent IdentityHashMap
  * 

@@ -1,6 +1,5 @@
 package com.yjl.fastjson.serializer;
 
-import sun.reflect.annotation.AnnotationType;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -9,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONObject;
+import sun.reflect.annotation.AnnotationType;
 
 /**
  * Created by wenshao on 10/05/2017.

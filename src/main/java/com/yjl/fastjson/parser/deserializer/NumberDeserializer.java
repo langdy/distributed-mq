@@ -3,7 +3,6 @@ package com.yjl.fastjson.parser.deserializer;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import com.yjl.fastjson.JSONException;
-import com.yjl.fastjson.annotation.JSONType;
 import com.yjl.fastjson.parser.DefaultJSONParser;
 import com.yjl.fastjson.parser.JSONLexer;
 import com.yjl.fastjson.parser.JSONToken;

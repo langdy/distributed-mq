@@ -10,7 +10,6 @@ import com.yjl.fastjson.parser.Feature;
 import com.yjl.fastjson.parser.JSONLexer;
 import com.yjl.fastjson.parser.JSONScanner;
 import com.yjl.fastjson.parser.JSONToken;
-import com.yjl.fastjson.util.TypeUtils;
 
 public abstract class AbstractDateDeserializer extends ContextObjectDeserializer
         implements ObjectDeserializer {

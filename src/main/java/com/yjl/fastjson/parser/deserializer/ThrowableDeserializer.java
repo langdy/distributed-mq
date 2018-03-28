@@ -1,7 +1,6 @@
 package com.yjl.fastjson.parser.deserializer;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +11,6 @@ import com.yjl.fastjson.parser.Feature;
 import com.yjl.fastjson.parser.JSONLexer;
 import com.yjl.fastjson.parser.JSONToken;
 import com.yjl.fastjson.parser.ParserConfig;
-import com.yjl.fastjson.serializer.JavaBeanSerializer;
-import com.yjl.fastjson.util.TypeUtils;
 
 public class ThrowableDeserializer extends JavaBeanDeserializer {
 
