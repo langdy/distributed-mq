@@ -47,4 +47,10 @@ public class BaseConstant {
      */
     public static final boolean DEFAULT_IS_PERSISTENT = true;
 
+    /**
+     * 钉钉webhook消息群
+     */
+    public static final String DINGTALK_WEBHOOK =
+            "https://oapi.dingtalk.com/robot/send?access_token=acc449973f4401ceed1f529d01fb83db9a8a23c1612ce12055883452d1b7693f";
+
 }

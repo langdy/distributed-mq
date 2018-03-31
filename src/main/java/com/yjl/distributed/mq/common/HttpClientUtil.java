@@ -13,9 +13,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import com.yjl.distributed.mq.config.ConnectionConfig;
+import com.yjl.distributed.mq.constant.BaseConstant;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONArray;
 import com.yjl.fastjson.JSONObject;
@@ -27,7 +29,9 @@ import com.yjl.fastjson.TypeReference;
  * 
  */
 public class HttpClientUtil {
+
     /**
+     * get请求，参数为form方式
      * 
      * @param url
      * @param querys 参数
@@ -101,18 +105,10 @@ public class HttpClientUtil {
         return sbUrl.toString();
     }
 
-    /**
-     * 
-     * @param url
-     * @param parameters
-     * @return
-     * @throws Exception
-     */
-    public static String doPost(String url, List<NameValuePair> parameters) throws Exception {
-        return doPost(url, parameters, null);
-    }
+
 
     /**
+     * Post请求，参数为form方式
      * 
      * @param url
      * @param parameters
@@ -141,7 +137,43 @@ public class HttpClientUtil {
         return result;
     }
 
+
+    /**
+     * Post请求，参数为json body方式
+     * 
+     * @param url
+     * @param body 格式为json串
+     * @param headers
+     * @return
+     * @throws Exception
+     */
+    public static String doPost(String url, String body, Map<String, String> headers)
+            throws Exception {
+        HttpClient client = HttpClients.createDefault();// 创建HttpClient对象
+
+        HttpPost post = new HttpPost(url); // 创建POST请求
+        post.setHeader("Content-Type", "application/json");
+
+        if (headers != null) {
+            for (Entry<String, String> header : headers.entrySet()) {
+                post.setHeader(header.getKey(), header.getValue());
+            }
+        }
+
+        // 向POST请求中添加消息实体
+        post.setEntity(new StringEntity(body, "utf-8"));
+
+        // 得到响应并转化成字符串
+        HttpResponse response = client.execute(post);
+        HttpEntity httpEntity = response.getEntity();
+        String result = EntityUtils.toString(httpEntity, "utf-8");
+        return result;
+    }
+
     public static void main(String[] args) throws Exception {
+        String postres = HttpClientUtil.doPost(BaseConstant.DINGTALK_WEBHOOK,
+                "{\"msgtype\": \"text\",\"text\": {\"content\": \"告警消息推送\"},\"at\": {}}", null);
+        System.out.println(postres);
 
         // 2.doGet,带json解析
         String url = "http://10.41.1.2:28868/connection-configs/list";
