@@ -13,11 +13,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.config.ConnectionConfig;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import com.yjl.distributed.mq.config.ConnectionConfig;
-import com.yjl.distributed.mq.constant.BaseConstant;
 import com.yjl.fastjson.JSON;
 import com.yjl.fastjson.JSONArray;
 import com.yjl.fastjson.JSONObject;
@@ -171,7 +170,11 @@ public class HttpClientUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String postres = HttpClientUtil.doPost(BaseConstant.DINGTALK_WEBHOOK,
+
+        // 钉钉webhook消息群
+        String dingtalkWebhook =
+                "https://oapi.dingtalk.com/robot/send?access_token=acc449973f4401ceed1f529d01fb83db9a8a23c1612ce12055883452d1b7693f";
+        String postres = HttpClientUtil.doPost(dingtalkWebhook,
                 "{\"msgtype\": \"text\",\"text\": {\"content\": \"告警消息推送\"},\"at\": {}}", null);
         System.out.println(postres);
 
@@ -184,7 +187,7 @@ public class HttpClientUtil {
         List<ConnectionConfig> configs = JSON.parseObject(text.toJSONString(),
                 new TypeReference<List<ConnectionConfig>>() {});
         for (ConnectionConfig config : configs) {
-            System.out.println(config.getBrokerUrl());
+            System.out.println(config.getCharset());
         }
 
 
